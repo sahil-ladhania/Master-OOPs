@@ -99,13 +99,13 @@ public class Main {
         System.out.println("Color: " + myCar2.getColor());
 
         // Example of How to create a Wrapper Class.
-        Integer num = new Integer(5);
-        Double d = new Double(5.65);
-        Character ch = new Character('a');
-
-        System.out.println("Integer: " + num);
-        System.out.println("Double: " + d);
-        System.out.println("Character: " + ch);
+//        Integer num = new Integer(5);
+//        Double d = new Double(5.65);
+//        Character ch = new Character('a');
+//
+//        System.out.println("Integer: " + num);
+//        System.out.println("Double: " + d);
+//        System.out.println("Character: " + ch);
 
     }
 }
