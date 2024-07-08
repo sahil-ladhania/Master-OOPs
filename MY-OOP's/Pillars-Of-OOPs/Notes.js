@@ -275,8 +275,4 @@ Super Keyword
     Example - In a subclass constructor, super() is used to call the constructor of the superclass.
     Real-world Analogy - Consider a family tree where each generation inherits traits from the previous one. The super keyword refers to the ancestors, accessing traits inherited from previous generations.
 
-
-
-
-
 */
