@@ -14,7 +14,7 @@ public class Main {
         float[] marks = new float[5];
         /*
             Note : If we want to store data of 5 students , we will have to store it in different variables and by using different datatypes.
-                   But What if we want to store it in one variable like below ?
+                   But what if we want to store it in one variable like below ?
         */
 
         Student[] students = new Student[5]; // Student is our own Datatype that we created. So if we want all three data in a single variable or datatype , we need to create a Class !
