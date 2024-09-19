@@ -1046,165 +1046,549 @@ Answer :
 Answer :
 * static ek keyword hai jo Java mein use hota hai to declare class-level members (variables, methods, or blocks).
 * Jab koi member static hota hai, toh wo class ka hissa hota hai, na ki kisi particular object ka.
-* Tumhe static members ko access karne ke liye object banane ki zarurat nahi hoti; directly class ke naam se access kar sakte ho.
-* Ex -
-    class Test {
-        static int count = 0; -----> Static variable
-        static void display() { -----> Static method
-            System.out.println("Count is: " + count);
+* In Java, static ek keyword hai jo hum kisi bhi class ke members (variables, methods, blocks) ko class-level pe define karne ke liye use karte hain.
+* Jab hum kisi cheez ko static banate hain, iska matlab wo member directly class ke sath associated hota hai, na ki uske object ke sath.
+* Tumhe static members ko access karne ke liye object banane ki zarurat nahi hoti, directly class ke naam se access kar sakte ho.
+* Iska use kyun karte hain -
+    static keyword ka use tab kiya jata hai jab hume kisi specific variable ya method ko share karna ho between all instances of the class.
+    Matlab, ek hi copy share hoti hai sab objects ke liye, aur ye memory ko efficiently use karne me help karta hai.
+* Types of static in Java -
+    Static Variables (Class Variables) -
+        Jab hum kisi variable ko static banate hain, wo class ke liye ek global variable ban jata hai.
+        Sabhi objects usi ek variable ko share karte hain.
+        Why use -
+            Agar hume total number of cars count karna ho jo sab objects ke liye common ho, to hum static variables use karte hain.
+        Ex -
+            class Car {
+                static int totalCars = 0; -----> static variable
+                Car() {
+                    totalCars++;
+                }
+            }
+            public class Main {
+                public static void main(String[] args) {
+                    Car car1 = new Car();
+                    Car car2 = new Car();
+                    System.out.println(Car.totalCars); -----> Output: 2
+                }
+            }
+    Static Methods -
+        Static methods ko class ke sath call kiya jata hai, bina kisi object ke.
+        Ye methods sirf static data members ko access kar sakte hain aur static context me kaam karte hain.
+        Why use -
+            Jab hume koi aisa method banana ho jo directly class ke through access ho sake, bina object create kiye.
+        Ex -
+            class MathOperations {
+                static int add(int a, int b) {
+                    return a + b;
+                }
+            }
+            public class Main {
+                public static void main(String[] args) {
+                    int sum = MathOperations.add(5, 10); -----> Directly class se method call ho rahi hai
+                    System.out.println(sum); -----> Output: 15
+                }
+            }
+    Static Blocks (Static Initializers) -
+        Static blocks ko tab use kiya jata hai jab hume class ke static variables ko initialize karna ho ya koi initialization logic run karni ho jab class load ho.
+        Ex -
+            class Example {
+                static int x;
+                static { -----> Static block
+                    x = 10;
+                    System.out.println("Static block executed");
+                }
+            }
+            public class Main {
+                public static void main(String[] args) {
+                    System.out.println(Example.x); -----> Output: Static block executed, 10
+                }
+            }
+    Static Inner Class -
+        Ek inner class ko static banaya ja sakta hai, jo directly outer class ke sath associated hota hai, bina outer class ke object ke.
+        Ex -
+            class Outer {
+                static class Inner {
+                    static void display() {
+                        System.out.println("Static Inner Class");
+                    }
+                }
+            }
+            public class Main {
+                public static void main(String[] args) {
+                    Outer.Inner.display(); -----> Output: Static Inner Class
+                }
+            }
+* Key Points of static -
+    Memory Allocation -
+        Static members ke liye memory ek baar hi allocate hoti hai, jab class load hoti hai.
+        Ye memory heap me nahi, balki method area (a special memory area) me store hoti hai.
+    Class-level association -
+        Static members class ke sath associated hote hain, not with objects.
+        Iska matlab, static members ko bina object ke class ke sath access kiya ja sakta hai.
+    Non-static member ko static method me directly access nahi kar sakte -
+        Kyunki non-static members har object ke liye unique hote hain, aur static members class level pe hote hain, isliye static methods ke andar non-static members ko directly access nahi kar sakte.
+* Ex of Static vs Non-Static Members -
+    class Example {
+        int nonStaticVar = 5; -----> Non-static variable
+        static int staticVar = 10; -----> Static variable
+        -----> Non-static method
+        void nonStaticMethod() {
+            System.out.println("Non-static method called.");
+            System.out.println("Non-static var: " + nonStaticVar);
+            System.out.println("Static var: " + staticVar);
+        }
+        -----> Static method
+        static void staticMethod() {
+            System.out.println("Static method called.");
+            // System.out.println("Non-static var: " + nonStaticVar); // Error
+            System.out.println("Static var: " + staticVar);
         }
     }
     public class Main {
         public static void main(String[] args) {
-            Test.display(); -----> Accessing static method without object
+            Example.staticMethod(); -----> Static method can be called without creating an object
+            Example obj = new Example();
+            obj.nonStaticMethod(); -----> Non-static method needs an object
         }
     }
+* Advantages of static in Java -
+    Memory Efficiency -
+        Ek hi copy banayi jaati hai static members ki, jo sab objects ke liye share hoti hai, memory wastage nahi hoti.
+    Utility Methods -
+        Jo methods sirf input/output operations perform karte hain aur kisi specific object’s state ko modify nahi karte, unhe static methods ke roop me implement karna zyada logical hota hai (e.g., Math.pow(), Math.sqrt()).
+    Code Organization -
+        Static methods aur variables se code ko logically separate kar sakte ho, jo aise functions ya data represent karte hain jo globally accessible hain.
+* Dis-Advantages of static in Java -
+    Limited Access to Non-static Members -
+        Static methods non-static members ko directly access nahi kar sakte, jo kabhi-kabhi restrictive ho sakta hai.
+    Hard to Test and Extend -
+        Static methods ko easily mock ya extend nahi kar sakte, jo unhe testing aur inheritance ke perspective se restrictive bana deta hai.
 
-5. What is static Variable ?
-Answer :
-* static variable wo variable hota hai jo class ke liye ek hi baar memory allocate karta hai, chahe kitne bhi objects banaye gaye ho.
-* Sab objects ke liye ek hi static variable shared hota hai.
-* Ex -
-    class Test {
-        static int count = 0;
-        Test() {
-            count++;
-        }
-        static void showCount() {
-            System.out.println("Count is: " + count);
-        }
-    }
-    public class Main {
-        public static void main(String[] args) {
-            Test obj1 = new Test();
-            Test obj2 = new Test();
-            Test.showCount(); -----> Output: Count is: 2
-        }
-    }
-
-6. What are non-static in java ?
+5. What are non-static in java ?
 Answer :
 * Non-static members wo hote hain jo class ke particular object ke liye specific hote hain.
 * Tumhe non-static members ko access karne ke liye object banana zaruri hota hai.
-* Ex -
+* In Java, non-static members wo hote hain jo kisi class ke objects ke sath associated hote hain.
+* Jab tak hum class ka object nahi banate, tab tak non-static members ko access nahi kar sakte.
+* Ye members object-specific hote hain, matlab har object apne separate copy of non-static members rakhta hai.
+* Types of Non-static Members in Java -
+    Non-static Variables (Instance Variables) -
+        Ye variables har object ke sath associated hote hain, aur har object ke paas apni ek alag copy hoti hai.
+        Isliye agar ek object me koi value change karte hain, to doosre object ki value pe koi asar nahi hota.
+        Why use -
+            Jab hume kisi class ke objects ke liye different state ya value store karni ho, tab non-static variables ka use hota hai.
+            Har object ka apna state hota hai jo kisi aur object se independent hota hai.
+        Ex -
+            class Car {
+                int speed; -----> Non-static variable
+                Car(int spd) {
+                    speed = spd;
+                }
+            }
+            public class Main {
+                public static void main(String[] args) {
+                    Car car1 = new Car(80);
+                    Car car2 = new Car(100);
+                    System.out.println(car1.speed); -----> Output: 80
+                    System.out.println(car2.speed); -----> Output: 100
+                }
+            }
+    Non-static Methods (Instance Methods) -
+        Non-static methods wo methods hote hain jo kisi object ke context me kaam karte hain.
+        Ye methods directly object ke non-static variables ko access kar sakte hain.
+        Why use -
+            Jab hume kisi object-specific functionality ko define karna ho, to hum non-static methods ka use karte hain. Ye methods har object ke specific state ke sath kaam karte hain.
+        Ex -
+            class Car {
+                int speed; -----> Non-static variable
+                Car(int spd) {
+                    speed = spd;
+                }
+                void showSpeed() { -----> Non-static method
+                    System.out.println("Speed: " + speed);
+                }
+            }
+            public class Main {
+                public static void main(String[] args) {
+                    Car car = new Car(80);
+                    car.showSpeed(); -----> Output: Speed: 80
+                }
+            }
+    Non-static Blocks (Instance Initializer Block) -
+        Non-static blocks wo blocks hote hain jo tab execute hote hain jab object create hota hai.
+        Ye blocks kisi constructor se pehle execute hote hain, aur mostly initialization ke liye use hote hain.
+        Why use -
+            Jab hume initialization logic ko constructor ke sath share karna ho ya constructor ke baad use karna ho, to non-static blocks helpful hote hain.
+        Ex -
+            class Example {
+                int x;
+                { // Non-static block
+                    x = 10;
+                    System.out.println("Non-static block executed.");
+                }
+                Example() {
+                    System.out.println("Constructor called.");
+                }
+            }
+            public class Main {
+                public static void main(String[] args) {
+                    Example obj = new Example();
+                    // Output:
+                    // Non-static block executed.
+                    // Constructor called.
+                }
+            }
+* Advantages of Non-static Members -
+    Instance-specific Behavior -
+        Non-static members allow each object to have its own state and behavior, making them ideal for representing real-world entities jahan har object ka apna state hota hai.
+        Ex - Har car ki apni speed hogi.
+    Object-Oriented Programming ke liye Important -
+        Non-static members OOP ke fundamental concept ko implement karte hain, jisme objects apna state aur behavior define karte hain.
+* Ex of Non-Static with Full Flow -
     class Car {
         int speed; -----> Non-static variable
-        void accelerate() { -----> Non-static method
-            speed += 10;
+        Car(int speed) { -----> Constructor
+            this.speed = speed;
+        }
+        void showSpeed() { -----> Non-static method
+            System.out.println("Speed: " + speed);
         }
     }
     public class Main {
         public static void main(String[] args) {
-            Car myCar = new Car();
-            myCar.accelerate(); -----> Accessing non-static method via object
+            Car car1 = new Car(60); -----> First object
+            Car car2 = new Car(100); -----> Second object
+            car1.showSpeed(); -----> Output: Speed: 60
+            car2.showSpeed(); -----> Output: Speed: 100
         }
     }
+    speed ek non-static variable hai, jo har object ke liye alag value store karta hai.
+    showSpeed() ek non-static method hai, jo object ke specific state ko display karta hai.
 
-7. What does Non-Static member inside a  static means ?
+6. What does Non-Static member inside a  static means ?
 Answer :
+* Jab hum static context (like static method ya static block) me kaam karte hain, to hume ek issue face hota hai -
+    non-static members (variables ya methods) ko directly access nahi kar sakte.
+    Ye isliye hota hai kyunki static context class level pe hota hai, jabki non-static members object-specific hote hain.
+* Reason -
+    Static members ka class ke sath directly relation hota hai, bina kisi object ke. Lekin non-static members ka relation class ke objects ke sath hota hai.
+    To jab hum static context me non-static member ko access karna chahte hain, to Java ko samajh nahi aata ki kis object ke context me wo non-static member ka reference le, kyunki static context ka object ke sath koi connection nahi hota.
 * Non-static member ko static context (jaise static method ya static block) ke andar directly access nahi kiya ja sakta, kyunki non-static members object-specific hote hain, aur static context class-specific hota hai.
 * Agar tumhe access karna ho, toh tumhe ek object create karna padega.
-* Ex of Invalid Code -
-    class Test {
+* Ex -
+    class Example {
         int x = 10; -----> Non-static variable
-        static void show() {
-            System.out.println(x); -----> Error, x is non-static
+        static void staticMethod() {
+            System.out.println(x); -----> Error: Non-static field 'x' cannot be referenced from a static context
+        }
+        void nonStaticMethod() {
+            System.out.println(x); -----> This works fine, as it's in non-static context
         }
     }
-* Ex of Valid Code -
-    class Test {
-        int x = 10;
-        static void show() {
-            Test obj = new Test(); -----> Create an object
-            System.out.println(obj.x); -----> Now it's valid
-        }
-    }
+    Is example me x ek non-static variable hai. Agar hum ise static method ke andar directly access karne ki koshish karte hain, to error milta hai, kyunki x object-specific hai aur static method kisi object ke sath associated nahi hai.
+* How to Access Non-static Members in a Static Context -
+    Create an Object -
+        Non-static members ko access karne ke liye hume pehle us class ka object create karna padega, phir object ke through non-static members ko access kar sakte hain.
+        Ex -
+            class Example {
+                int x = 10; -----> Non-static variable
+                static void staticMethod() {
+                    Example obj = new Example(); -----> Object creation
+                    System.out.println(obj.x); -----> Access non-static variable using object
+                }
+            }
+            public class Main {
+                public static void main(String[] args) {
+                    Example.staticMethod(); -----> Output: 10
+                }
+            }
+            Yahan humne static method ke andar Example class ka object create kiya, aur phir object ke through non-static variable x ko access kiya.
+        Why use -
+            Jab aapko kisi object-specific variable ya method ko static context se access karna ho, to aapko class ka object banana hoga.
+* Important Points -
+    •	Static context (like static method ya block) class level pe hota hai.
+	•	Non-static members object level pe hote hain.
+	•	Direct access nahi hota non-static members ka static context me kyunki static members object ke context ko nahi samajhte.
+* Key Takeaway -
+    Agar static context me non-static members ko access karna ho, to us class ka object banana padega.
+    Static context object-independent hota hai, jabki non-static context object-specific hota hai.
 
-8. What does Static member inside a  non-static means ?
+7. What does Static member inside a non-static means ?
 Answer :
+* Jab hum non-static context me kaam karte hain, jaise ki non-static method ya constructor ke andar, to hum static members ko directly access kar sakte hain.
+* Iska reason yeh hai ki static members class level pe hote hain, aur unka existence bina kisi object ke bhi hota hai.
+* Static members ko kisi object-specific state ki zaroorat nahi hoti, to chahe hum non-static context me bhi ho, static members ko access karna bilkul allowed hai.
 * Static members ko non-static context ke andar directly access kiya ja sakta hai, kyunki static members class-level pe hote hain, aur wo sab objects ke liye available hote hain.
 * Ex -
-    class Test {
-        static int count = 0;
-        void show() {
-            System.out.println(count); -----> Valid, static variable accessed in non-static method
+    class Example {
+        static int count = 0; -----> Static variable
+        void nonStaticMethod() {
+            System.out.println(count); -----> Directly access static variable in non-static method
         }
     }
-
-9. What does this keyword inside static means ?
-Answer :
-* this keyword ka use current object ko refer karne ke liye hota hai.
-* Lekin static context mein, object exist nahi karta, kyunki static members class-level pe hote hain, isliye this static context mein use nahi kiya jaa sakta.
-* Ex of Invalid Code -
-    class Test {
-        int x = 10;
-        static void show() {
-            System.out.println(this.x); -----> Error, `this` cannot be used in static context
-        }
-    }
-
-10. What is initialisation in static variables means ?
-Answer :
-* Static variables ko initialize karna kaafi zaruri hota hai.
-* Tum ya toh directly static variable ko initialize kar sakte ho, ya phir static block ka use karke complex initialization kar sakte ho.
-* Ex -
-    class Test {
-        static int count;
-        static {
-            count = 5; -----> Static block initialization
-        }
-        static void display() {
-            System.out.println("Count: " + count);
-        }
-    }
-
-11. What are Inner Classes ?
-Answer :
-* Inner Classes ek class ke andar doosri class hoti hai.
-* Ye encapsulation aur structure ko improve karti hain.
-* Java mein 4 types of inner classes hoti hain -
-    Nested Inner Class
-	Method-local Inner Class
-	Anonymous Inner Class
-	Static Nested Class
-* Ex -
-    class OuterClass {
-        class InnerClass {
-            void display() {
-                System.out.println("This is an inner class.");
+    Yahan count ek static variable hai. Jab hum nonStaticMethod() (jo non-static context me hai) ke andar count ko access karte hain, to koi issue nahi hota, kyunki static variables har object ke liye common hote hain aur class level pe exist karte hain.
+* Key Differences -
+    Static Members -
+        •	Class level pe hote hain, unka relation class ke sath hota hai, kisi specific object ke sath nahi.
+        •	Har object ke liye ek hi copy hoti hai.
+        •	Directly accessible hote hain chahe hum static context me ho ya non-static context me.
+    Non-static Context -
+        •	Yahan har cheez object-specific hoti hai.
+        •	Static members ko yahan bina kisi issue ke access kiya ja sakta hai, kyunki wo class level pe hote hain.
+* Accessing Static Members in Non-static Context -
+    Direct Access -
+        Non-static methods ya constructors ke andar static members ko directly access kiya ja sakta hai, bina kisi object reference ke.
+        Ex -
+            class Example {
+                static int count = 5; -----> Static variable
+                void nonStaticMethod() {
+                    System.out.println("Static count: " + count); -----> Direct access
+                }
             }
-        }
-    }
-    public class Main {
-        public static void main(String[] args) {
-            OuterClass outer = new OuterClass();
-            OuterClass.InnerClass inner = outer.new InnerClass();
-            inner.display();
-        }
-    }
+            public class Main {
+                public static void main(String[] args) {
+                    Example obj = new Example();
+                    obj.nonStaticMethod(); -----> Output: Static count: 5
+                }
+            }
+            Yahan count ek static member hai, jise humne directly access kiya non-static method ke andar.
+    Using Class Name (Optional) -
+        Static members ko non-static methods ke andar class name ke through bhi access kiya ja sakta hai, lekin ye zaroori nahi hai.
+        Ex -
+            class Example {
+                static int count = 10; -----> Static variable
+                void nonStaticMethod() {
+                    System.out.println("Static count: " + Example.count); -----> Access using class name
+                }
+            }
+            Yahan, hum Example.count ke through static variable ko access kar rahe hain, jo bilkul valid hai.
+* Important Points -
+    •	Static members class ke sath associated hote hain, isliye hum unhe non-static methods ke andar bhi easily access kar sakte hain.
+	•	Static members har object ke liye same rehte hain, aur unki ek hi copy hoti hai.
+* Use Case -
+    Agar aapko kisi shared resource (jaise ki counter, configuration) ko manage karna ho jo class ke har object ke liye common ho, to aap static variables ka use kar sakte ho.
+    Phir aap unhe non-static methods ya constructors me directly access kar sakte ho, bina kisi additional logic ke.
 
-12. What is Singleton Class ?
+8. What does this keyword inside static means ?
 Answer :
-* Singleton Class wo class hoti hai jo sirf ek hi instance (object) ko allow karti hai.
-* Iska main use system-wide global state ko represent karna hota hai, jaise logging, caching, etc.
+* Java me jab hum this keyword ki baat karte hain, to uska matlab hota hai current object.
+* Matlab jo object us waqt method ya constructor ko invoke kar raha hai, this usi object ka reference hai.
+* Lekin static context me koi object nahi hota, kyunki static members aur methods class level pe hote hain, aur unka koi relation specific object ke sath nahi hota.
+* Is wajah se, static context ke andar this ka use allowed nahi hota.
+* Reason -
+    Static context (jaise static methods ya static blocks) ka kaam object-independent hota hai.
+    Wo class ke level pe hote hain, aur bina kisi object ke kaam karte hain.
+    this keyword sirf tab kaam karta hai jab koi specific object us method ko invoke karta hai, kyunki this ka reference usi object ko point karta hai.
+    Static context me koi object hota hi nahi, isliye this ka koi meaning nahi hota.
+* Ex -
+    class Example {
+        static int count = 0;
+        static void staticMethod() {
+            System.out.println(this.count); -----> Compilation error
+        }
+        void nonStaticMethod() {
+            System.out.println(this.count); -----> This is valid in non-static context
+        }
+    }
+    Yahan agar aap static method ke andar this keyword ko use karne ki koshish karoge, to compilation error aayega. Kyunki static methods ko invoke karne ke liye koi specific object nahi hota, wo class level pe execute hote hain.
+    Error Explanation -
+        Agar aap static method ya static block ke andar this keyword ka use karte ho, to error kuch is tarah se aayega.
+        Non-static variable this cannot be referenced from a static context.
+        Iska matlab yeh hai ki static context ke andar koi object-specific reference (this) nahi hota, isliye aap usse access nahi kar sakte.
+* Important Points -
+    Static Methods -
+        •	Static methods class ke sath associated hote hain, na ki kisi specific object ke sath.
+        •	this keyword tabhi kaam karta hai jab kisi object se method call ho raha ho, lekin static methods ko bina object ke bhi call kiya ja sakta hai, isliye this ka koi matlab nahi hota.
+    Non-static Methods -
+        •	Non-static methods ko hamesha kisi object ke sath call kiya jata hai, to yahan this ka meaning hota hai.
+        •	this ka use non-static context me current object ke reference ko point karne ke liye hota hai.
+
+9. What are Inner Classes ?
+Answer :
+* Inner classes wo classes hoti hain jo kisi doosri class ke andar declare ki jaati hain.
+* Matlab, ek class ke andar ek aur class banayi jaati hai.
+* Iska main use hai encapsulation aur code readability ko improve karna.
+* Inner classes ko bahar ki class ke members tak direct access milta hai, even agar wo private ho.
+* Java mein 4 types of inner classes hoti hain -
+    Nested Inner Class -
+        Ye ek simple inner class hoti hai jo directly outer class ke andar defined hoti hai.
+        Is class ko outer class ke members tak access milta hai, chahe wo private hi kyun na ho.
+        Ex -
+            class OuterClass {
+                private int data = 30;
+                class InnerClass {
+                    void display() {
+                        System.out.println("Data: " + data); -----> Direct access to outer class's private data
+                    }
+                }
+            }
+        Key Points -
+            •	Ye class non-static hoti hai.
+            •	Outer class ka ek object create karna zaroori hota hai nested inner class ko access karne ke liye.
+            •	Object creation -
+                OuterClass outer = new OuterClass();
+                OuterClass.InnerClass inner = outer.new InnerClass();
+                inner.display();
+	Method-local Inner Class -
+        Ye inner class kisi method ke andar declare ki jaati hai, aur iska scope sirf usi method tak limited hota hai.
+        Ye bahar se access nahi ki jaa sakti.
+        Ex -
+            class OuterClass {
+                void myMethod() {
+                    class LocalInnerClass {
+                        void display() {
+                            System.out.println("Method-local inner class example");
+                        }
+                    }
+                    LocalInnerClass local = new LocalInnerClass();
+                    local.display();
+                }
+            }
+        * Key Points -
+            •	Iska scope sirf method ke andar hota hai jisme define ki gayi ho.
+            •	Ye class tabhi access hoti hai jab method execute hota hai.
+            •	Method-local inner class outer class ke members ko directly access kar sakti hai, lekin sirf final ya effectively final local variables tak access kar sakti hai.
+	Anonymous Inner Class -
+        Ye inner class tab banayi jaati hai jab aapko kisi existing class ya interface ka ek single-use implementation banana ho, without creating a separate named class.
+        Ye ek nameless class hoti hai jo mostly ek event handling ya quick functionality ke liye use ki jaati hai.
+        Ex -
+            interface Animal {
+                void sound();
+            }
+            class MainClass {
+                public static void main(String[] args) {
+                    Animal dog = new Animal() {
+                        public void sound() {
+                            System.out.println("Bark");
+                        }
+                    };
+                    dog.sound();
+                }
+            }
+        Key Points -
+            •	Ye mostly interfaces ya abstract classes ko implement karne ke liye use hoti hai.
+            •	Aap directly object ke saath class define karte ho, bina class ka naam diye.
+            •	Ek hi method ka implementation hota hai isme, aur iska use temporary hota hai.
+	Static Nested Class -
+        Static nested class ek static class hoti hai jo outer class ke andar define ki gayi hoti hai.
+        Is class ko outer class ke object ki zaroorat nahi hoti access karne ke liye.
+        Ex -
+            class OuterClass {
+                static int data = 40;
+                static class StaticNestedClass {
+                    void display() {
+                        System.out.println("Static data: " + data); -----> Direct access to static members
+                    }
+                }
+            }
+            class MainClass {
+                public static void main(String[] args) {
+                    OuterClass.StaticNestedClass nested = new OuterClass.StaticNestedClass();
+                    nested.display();
+                }
+            }
+        Key Points -
+            •	Static nested class outer class ke static members ko directly access kar sakti hai.
+            •	Static nested class ko access karne ke liye outer class ka object banana zaroori nahi hota.
+            •	Ye ek top-level nested class jaisi hoti hai, bas outer class ke andar declare hoti hai.
+* Need for Inner Classes -
+    Logical Grouping -
+        Jab ek class doosri class ke logical context me kaam kare, to usse inner class ke roop me define karna better hota hai.
+	Encapsulation -
+        Inner classes ke through, outer class ke members tak direct access possible hota hai, even private members tak.
+	Code Readability -
+        Complex logic ko better manage karne ke liye inner classes ka use kiya ja sakta hai.
+
+10. What is Singleton Class ?
+Answer :
+* Singleton Class ek aisi class hoti hai jisme sirf ek hi object (instance) create ho sakta hai.
+* Iska main use hota hai jab aapko kisi resource ka ek hi global access point chahiye, jaise logging, configuration settings, or database connections.
+* Features of Singleton Class -
+        Sirf ek hi instance allowed hota hai throughout the program.
+        Global access point provide karta hai jisse wo single instance har jagah se accessible ho.
+        Class ke constructor ko private bana diya jaata hai taaki koi doosra object bana na sake.
+* Steps to Create Singleton Class -
+    Private Constructor -
+        Isse ensure kiya jaata hai ki class ka object directly create na kiya ja sake.
+	Static Method -
+        Ek static method provide kiya jaata hai jo class ka object return karta hai.
+        Agar object pehle se exist karta ho, to wahi return karega, otherwise ek naya object create karega.
+	Static Variable -
+        Ek static variable jo class ke single instance ko store karega.
 * Ex -
     class Singleton {
-        private static Singleton instance;
-        private Singleton() {} // Private constructor
+        ----->Static variable that holds the only instance of Singleton class
+        private static Singleton instance = null;
+        ----->Private constructor to prevent external instantiation
+        private Singleton() {
+            System.out.println("Singleton instance created.");
+        }
+        ----->Static method to provide access to the single instance
         public static Singleton getInstance() {
             if (instance == null) {
-                instance = new Singleton();
+                instance = new Singleton();  -----> Lazy initialization
             }
             return instance;
         }
     }
-    public class Main {
+    class Main {
         public static void main(String[] args) {
             Singleton obj1 = Singleton.getInstance();
             Singleton obj2 = Singleton.getInstance();
-            System.out.println(obj1 == obj2); // true, both references point to the same instance
+            ----->Output: obj1 and obj2 are same instances
+            if (obj1 == obj2) {
+                System.out.println("Both are the same instance.");
+            }
         }
     }
+* Key Points -
+    Lazy Initialization -
+        Object ko tabhi create kiya jaata hai jab pehli baar uska access kiya jaata hai. Isse resources save hote hain.
+	Global Access -
+        getInstance() method ke through, Singleton instance globally accessible hota hai.
+	Private Constructor -
+        Iska use karke object creation ko restrict kiya jaata hai taaki class ke bahar koi object create na kar sake.
+* Types of Singleton Implementations -
+    Eager Initialization -
+        Isme instance ko class ke load hone ke waqt hi create kiya jaata hai.
+        Ex -
+            class EagerSingleton {
+                private static final EagerSingleton instance = new EagerSingleton();
+                private EagerSingleton() {}
+                public static EagerSingleton getInstance() {
+                    return instance;
+                }
+            }
+        Downside - Agar class use na bhi ho to bhi memory allocate ho jaati hai.
+    Lazy Initialization -
+        Instance tabhi create hota hai jab pehli baar getInstance() call hoti hai.
+        Ye zyada efficient hota hai.
+	Thread Safe Singleton -
+        Multiple threads ke case me ensure karta hai ki sirf ek hi instance create ho.
+        Ex -
+            class ThreadSafeSingleton {
+                private static ThreadSafeSingleton instance = null;
+                private ThreadSafeSingleton() {}
+                public static synchronized ThreadSafeSingleton getInstance() {
+                    if (instance == null) {
+                        instance = new ThreadSafeSingleton();
+                    }
+                    return instance;
+                }
+            }
+        Downside - synchronized ki wajah se performance impact ho sakta hai.
+* Advantages of Singleton Class -
+	Controlled Access - Aapko ek hi instance ka global access point milta hai.
+	Memory Efficient - Sirf ek hi object create hota hai, memory waste nahi hoti.
+	Use in Multithreading - Singleton classes ko thread-safe banakar multiple threads me ek hi instance ka use kiya jaa sakta hai.
+* Disadvantages of Singleton Class -
+    Global State - Global object ka use karna kabhi kabhi bugs create kar sakta hai agar us object ko galat tareeke se modify kar diya jaaye.
+	Difficult in Testing - Singleton objects testing ke dauran multiple objects banane ko restrict karte hain, jo testing scenarios ko complex bana sakta hai.
+* When to Use Singleton -
+    Configuration Settings - Agar aapko ek centralized configuration setting chahiye jo har jagah se access ho sake.
+	Database Connection - Single database connection ko multiple modules ke liye reuse karna ho.
+	Logging - Global logging class, jo poore application ke events log kar sake.
 
 -----Important Keywords-----
 
