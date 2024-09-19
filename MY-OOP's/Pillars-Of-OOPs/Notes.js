@@ -466,7 +466,7 @@ Answer :
 Answer :
 * this keyword current object ka reference hota hai.
 * this keyword ek special keyword hai jo current object ko refer karta hai jisme code execute ho raha hai.
-* Matlab, jab tum this ka use karte ho, toh wo current instance (object) ka reference hota hai.
+* Matlab, jab tum "this" ka use karte ho, toh wo current instance (object) ka reference hota hai.
 * Yeh useful hota hai jab tumhe differentiate karna hota hai class ke attributes (instance variables) aur method ke local variables ke beech.
 * Use Cases of this Keyword :-
     Accessing Instance Variables -
@@ -680,7 +680,7 @@ Answer :
             Integer x = new Integer(10);  -----> This would store the object in heap memory, which is less efficient.
     Direct Access -
         Primitive variables directly unke value ko hold karte hain, jiska matlab hai ki unhe access karna fast hota hai.
-        new keyword se object creation hamesha heap memory mein hota hai, aur heap memory ko manage karna relatively slow hota hai compared to stack memory.
+        "new" keyword se object creation hamesha heap memory mein hota hai, aur heap memory ko manage karna relatively slow hota hai compared to stack memory.
         Ex -
             int a = 5;  -----> Directly stores value 5.
             -----Using new (with wrapper classes)-----
