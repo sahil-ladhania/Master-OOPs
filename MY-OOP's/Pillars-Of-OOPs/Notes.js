@@ -1060,7 +1060,6 @@ Answer :
         }
     }
 
-
 5. What is static Variable ?
 Answer :
 * static variable wo variable hota hai jo class ke liye ek hi baar memory allocate karta hai, chahe kitne bhi objects banaye gaye ho.
