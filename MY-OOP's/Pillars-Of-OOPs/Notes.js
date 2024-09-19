@@ -997,6 +997,216 @@ Answer :
 * Constructors have no return type.
 * Automatically called when an object is created.
 
+-----Packages , Static , Singleton Class , In-Built Methods-----
+
+1. What are Packages ?
+Answer :
+* Packages in Java ek tarike ka folder structure hai jisme tum apne related classes ko group kar sakte ho.
+* Ek package ek collection hoti hai classes, interfaces, and sub-packages ki, jisse tumhari code organization aur modularization simple ho jaati hai.
+* Ex -
+    Agar tumhare pass ek project hai jo accounting aur sales modules pe kaam kar raha hai, toh tum accounting aur sales ke liye alag-alag packages bana sakte ho :
+        package com.company.accounting;
+        public class Invoice {
+            // Accounting related code
+        }
+        package com.company.sales;
+        public class SalesReport {
+            // Sales related code
+        }
+
+2. What is the need of Packages ?
+Answer :
+* Packages ka main purpose hota hai code ko organize karna aur naming conflicts ko avoid karna.
+* Kuch aur reasons :
+    Namespace Management -
+        Ek hi naam ke multiple classes ho sakte hain agar wo alag-alag packages mein hain.
+    Modularization -
+        Tumhare code ko logically divide karna easy ho jaata hai.
+        Ex - java.util package for utility classes.
+    Access Control -
+        Access modifiers (like protected and default) ka behavior package level pe bhi apply hota hai.
+    Reusability -
+        Tum easily reusable libraries create kar sakte ho jo alag-alag projects mein use ho sakti hain.
+
+3. What does import statement means ?
+Answer :
+* Java mein jab tum ek class ya package ko use karna chahte ho jo tumhare current package mein nahi hai, toh import statement ka use hota hai.
+* Syntax -
+    import package_name.class_name;
+* Ex -
+    import java.util.ArrayList;
+    public class Test {
+        ArrayList<String> list = new ArrayList<>();
+    }
+* Agar tum saari classes ko ek package se import karna chahte ho, toh * use karte ho.
+* Ex -
+    import java.util.*;
+
+4. What is static in java ?
+Answer :
+* static ek keyword hai jo Java mein use hota hai to declare class-level members (variables, methods, or blocks).
+* Jab koi member static hota hai, toh wo class ka hissa hota hai, na ki kisi particular object ka.
+* Tumhe static members ko access karne ke liye object banane ki zarurat nahi hoti; directly class ke naam se access kar sakte ho.
+* Ex -
+    class Test {
+        static int count = 0; -----> Static variable
+        static void display() { -----> Static method
+            System.out.println("Count is: " + count);
+        }
+    }
+    public class Main {
+        public static void main(String[] args) {
+            Test.display(); -----> Accessing static method without object
+        }
+    }
+
+
+5. What is static Variable ?
+Answer :
+* static variable wo variable hota hai jo class ke liye ek hi baar memory allocate karta hai, chahe kitne bhi objects banaye gaye ho.
+* Sab objects ke liye ek hi static variable shared hota hai.
+* Ex -
+    class Test {
+        static int count = 0;
+        Test() {
+            count++;
+        }
+        static void showCount() {
+            System.out.println("Count is: " + count);
+        }
+    }
+    public class Main {
+        public static void main(String[] args) {
+            Test obj1 = new Test();
+            Test obj2 = new Test();
+            Test.showCount(); -----> Output: Count is: 2
+        }
+    }
+
+6. What are non-static in java ?
+Answer :
+* Non-static members wo hote hain jo class ke particular object ke liye specific hote hain.
+* Tumhe non-static members ko access karne ke liye object banana zaruri hota hai.
+* Ex -
+    class Car {
+        int speed; -----> Non-static variable
+        void accelerate() { -----> Non-static method
+            speed += 10;
+        }
+    }
+    public class Main {
+        public static void main(String[] args) {
+            Car myCar = new Car();
+            myCar.accelerate(); -----> Accessing non-static method via object
+        }
+    }
+
+7. What does Non-Static member inside a  static means ?
+Answer :
+* Non-static member ko static context (jaise static method ya static block) ke andar directly access nahi kiya ja sakta, kyunki non-static members object-specific hote hain, aur static context class-specific hota hai.
+* Agar tumhe access karna ho, toh tumhe ek object create karna padega.
+* Ex of Invalid Code -
+    class Test {
+        int x = 10; -----> Non-static variable
+        static void show() {
+            System.out.println(x); -----> Error, x is non-static
+        }
+    }
+* Ex of Valid Code -
+    class Test {
+        int x = 10;
+        static void show() {
+            Test obj = new Test(); -----> Create an object
+            System.out.println(obj.x); -----> Now it's valid
+        }
+    }
+
+8. What does Static member inside a  non-static means ?
+Answer :
+* Static members ko non-static context ke andar directly access kiya ja sakta hai, kyunki static members class-level pe hote hain, aur wo sab objects ke liye available hote hain.
+* Ex -
+    class Test {
+        static int count = 0;
+        void show() {
+            System.out.println(count); -----> Valid, static variable accessed in non-static method
+        }
+    }
+
+9. What does this keyword inside static means ?
+Answer :
+* this keyword ka use current object ko refer karne ke liye hota hai.
+* Lekin static context mein, object exist nahi karta, kyunki static members class-level pe hote hain, isliye this static context mein use nahi kiya jaa sakta.
+* Ex of Invalid Code -
+    class Test {
+        int x = 10;
+        static void show() {
+            System.out.println(this.x); -----> Error, `this` cannot be used in static context
+        }
+    }
+
+10. What is initialisation in static variables means ?
+Answer :
+* Static variables ko initialize karna kaafi zaruri hota hai.
+* Tum ya toh directly static variable ko initialize kar sakte ho, ya phir static block ka use karke complex initialization kar sakte ho.
+* Ex -
+    class Test {
+        static int count;
+        static {
+            count = 5; -----> Static block initialization
+        }
+        static void display() {
+            System.out.println("Count: " + count);
+        }
+    }
+
+11. What are Inner Classes ?
+Answer :
+* Inner Classes ek class ke andar doosri class hoti hai.
+* Ye encapsulation aur structure ko improve karti hain.
+* Java mein 4 types of inner classes hoti hain -
+    Nested Inner Class
+	Method-local Inner Class
+	Anonymous Inner Class
+	Static Nested Class
+* Ex -
+    class OuterClass {
+        class InnerClass {
+            void display() {
+                System.out.println("This is an inner class.");
+            }
+        }
+    }
+    public class Main {
+        public static void main(String[] args) {
+            OuterClass outer = new OuterClass();
+            OuterClass.InnerClass inner = outer.new InnerClass();
+            inner.display();
+        }
+    }
+
+12. What is Singleton Class ?
+Answer :
+* Singleton Class wo class hoti hai jo sirf ek hi instance (object) ko allow karti hai.
+* Iska main use system-wide global state ko represent karna hota hai, jaise logging, caching, etc.
+* Ex -
+    class Singleton {
+        private static Singleton instance;
+        private Singleton() {} // Private constructor
+        public static Singleton getInstance() {
+            if (instance == null) {
+                instance = new Singleton();
+            }
+            return instance;
+        }
+    }
+    public class Main {
+        public static void main(String[] args) {
+            Singleton obj1 = Singleton.getInstance();
+            Singleton obj2 = Singleton.getInstance();
+            System.out.println(obj1 == obj2); // true, both references point to the same instance
+        }
+    }
+
 -----Important Keywords-----
 
 1. What are some Important Keywords in Java ?
