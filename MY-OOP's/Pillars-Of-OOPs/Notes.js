@@ -22,12 +22,12 @@ Answer :
         Methods (Functions) - Yeh object ke actions ya behavior define karte hain.
 * Ex -
     Let’s take an example of a class called Car.
-    // Class Definition
+    ----->Class Definition
     class Car {
-        // Attributes (variables)
+        ----->Attributes (variables)
         String brand;
         int speed;
-        // Method (function)
+        ----->Method (function)
         void drive() {
             System.out.println(brand + " is driving at " + speed + " km/h.");
         }
@@ -39,13 +39,13 @@ Answer :
 * Ex -
     public class Main {
         public static void main(String[] args) {
-            // Object Creation
-            Car myCar = new Car();  // myCar is an instance of the Car class
-            // Setting attributes
+            ----->Object Creation
+            Car myCar = new Car();  -----> myCar is an instance of the Car class
+            ----->Setting attributes
             myCar.brand = "Honda";
             myCar.speed = 120;
-            // Calling method
-            myCar.drive();  // Output: Honda is driving at 120 km/h.
+            ----->Calling method
+            myCar.drive();  -----> Output: Honda is driving at 120 km/h.
         }
     }
     Yahaan myCar ek object hai Car class ka, jisme humne attributes brand aur speed set kiye hain, aur drive() method call kiya hai jo action perform karta hai.
@@ -95,17 +95,17 @@ Answer :
     public class Main {
         public static void main(String[] args) {
             // Creating an object of class Car
-            Car myCar = new Car();  // myCar is an object of the Car class
-            myCar.brand = "Honda";  // Setting the brand attribute
-            myCar.speed = 120;  // Setting the speed attribute
-            myCar.drive();  // Calling the method (Behavior)
+            Car myCar = new Car();  -----> myCar is an object of the Car class
+            myCar.brand = "Honda";  -----> Setting the brand attribute
+            myCar.speed = 120;  -----> Setting the speed attribute
+            myCar.drive();  -----> Calling the method (Behavior)
         }
     }
 * Understanding Object Creation :-
     In this example -
-        	•	myCar is an object of class Car.
-	        •	Is object ka state hai brand = Honda aur speed = 120.
-	        •	Iska behavior hai drive() method jo action perform karta hai.
+        •	myCar is an object of class Car.
+        •	Is object ka state hai brand = Honda aur speed = 120.
+        •	Iska behavior hai drive() method jo action perform karta hai.
 * Characteristics of an Object :-
     State (Attributes/Properties) -
         Object ki specific values ko state kehte hain.
@@ -141,15 +141,15 @@ Answer :
         }
         public class Main {
             public static void main(String[] args) {
-                // Creating objects
+                ----->Creating objects
                 Phone myPhone = new Phone();
                 myPhone.model = "iPhone";
                 myPhone.batteryLife = 80;
                 Phone yourPhone = new Phone();
                 yourPhone.model = "Samsung";
                 yourPhone.batteryLife = 100;
-                myPhone.makeCall();  // Output: Making a call using iPhone
-                yourPhone.makeCall();  // Output: Making a call using Samsung
+                myPhone.makeCall();  -----> Output: Making a call using iPhone
+                yourPhone.makeCall();  -----> Output: Making a call using Samsung
             }
         }
         Yahaan myPhone aur yourPhone objects hain Phone class ke. Inke attributes (model, batteryLife) alag hain, lekin behavior (makeCall) same hai.
@@ -180,8 +180,8 @@ Answer :
         Har house ka structure (jaise number of rooms, design) same hoga kyunki wo ek hi blueprint se bane hain, lekin har house ki unique properties ho sakti hain (color, interior design, etc.).
         Tum multiple houses bana sakte ho ek blueprint se, lekin har house ki state alag hogi.
         For example -
-            	    •	Ek house ka color white ho sakta hai aur doosre ka blue.
-	                •	Ek house mein 3 rooms ho sakte hain aur doosre mein 2 rooms.
+            •	Ek house ka color white ho sakta hai aur doosre ka blue.
+            •	Ek house mein 3 rooms ho sakte hain aur doosre mein 2 rooms.
 * Example in Terms of Programming :-
     Example of Class (Car) -
             class Car {
@@ -193,11 +193,11 @@ Answer :
                 }
             }
     Example of Object (car1 , car2) -
-        Car car1 = new Car();  // car1 is an object of class Car
+        Car car1 = new Car();  -----> car1 is an object of class Car
         car1.brand = "Honda";
         car1.color = "Red";
         car1.speed = 120;
-        Car car2 = new Car();  // car2 is another object of class Car
+        Car car2 = new Car();  -----> car2 is another object of class Car
         car2.brand = "Toyota";
         car2.color = "Blue";
         car2.speed = 100;
@@ -366,7 +366,7 @@ Outside Class Function
 
 1. What are Constructors in Java ?
 Answer :
-* Constructors ek special type ke method hote hain jo kisi class ke object ko initialize karte hain.
+* Constructors ek special type ke method hote hain jo kisi class ke object ko initialize karta hain.
 * Jab hum class ka object banate hain, toh constructor automatically call hota hai.
 * Constructor ka naam hamesha class ke naam jaisa hota hai, aur uska return type nahi hota (na hi void, na kuch aur).
 * Constructors are special member functions used to initialize objects of a class.
@@ -389,21 +389,29 @@ Answer :
         class Car {
             String brand;
             int speed;
-            -----Default Constructor-----
+            -----Explicitly Defining a Default Constructor-----
             public Car() {
                 System.out.println("Default constructor called");
-                brand = "Unknown";
-                speed = 0;
             }
         }
         public class Main {
             public static void main(String[] args) {
                 Car car1 = new Car();  -----> Default Constructor is called automatically
-                System.out.println(car1.brand);  -----> Output: Unknown
+                System.out.println(car1.brand);  -----> Output: null
                 System.out.println(car1.speed);  -----> Output: 0
             }
         }
-        Yaha par Car ka default constructor automatically call hota hai jab car1 object banata hain.
+        We haven’t explicitly created a constructor Car(), but Java internally provides a default constructor when no constructor is defined. So, when we do this -
+            Car car1 = new Car();
+            Java calls the default constructor (which is an invisible, no-argument constructor like this behind the scenes) -
+                public Car() {
+                    ----->Implicit constructor doing nothing
+                }
+                This default constructor initializes the instance variables brand and speed to their default values -
+                    •	brand (which is a String) is initialized to null.
+                    •	speed (which is an int) is initialized to 0.
+            So, yes—Java automatically provides the default constructor if you don’t define any constructor yourself.
+            Now, if we want to explicitly define a default constructor, we can write it like the way we did above.
 * Parameterized Constructor -
     Accepts parameters to initialize object state.
     Ye constructor parameters accept karta hai aur unhe use karke object ki initial state ko set karta hai.
@@ -411,26 +419,30 @@ Answer :
         Jab tumhe object banate time specific values deni hoti hain, tab parameterized constructor ka use hota hai.
     Ex -
         class Car {
-            String brand;
-            int speed;
-            -----Parameterized Constructor-----
-            public Car(String b, int s) {
-                brand = b;
-                speed = s;
+            String model;
+            int maxSpeed;
+            ----->Parameterized Constructor
+            Car(String model, int maxSpeed) {
+                -----> 'this' refers to the current object instance
+                this.model = model;
+                this.maxSpeed = maxSpeed;
             }
         }
-        public class Main {
+        public class Constructor_Practice {
             public static void main(String[] args) {
-                Car car1 = new Car("Honda", 120);  -----> Parameterized Constructor is called
-                System.out.println(car1.brand);  -----> Output: Honda
-                System.out.println(car1.speed);  -----> Output: 120
+                System.out.println("Parameterized Constructor:");
+                -----> Creating an object of Car class using the parameterized constructor
+                Car myCar = new Car("BMW", 300);
+                -----> Accessing instance variables
+                System.out.println(myCar.model);     -----> Output: BMW
+                System.out.println(myCar.maxSpeed);  -----> Output: 300
             }
         }
-        Yaha par Car class ka parameterized constructor values accept karta hai jab object create hota hai.
 * Copy Constructor -
     Creates a new object by copying the values from another object.
     Copy constructor ka use ek object ko doosre object ke values se initialize karne ke liye hota hai.
     Ye ek object ka data copy karke ek naye object me daal deta hai.
+    A copy constructor takes another object of the same class as a parameter and copies the values of the instance variables from that object to the new object.
     Kab use hota hai -
         Jab tumhe ek existing object ki values ko kisi naye object me copy karna ho.
     Ex -
