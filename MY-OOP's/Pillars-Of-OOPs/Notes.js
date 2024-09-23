@@ -1675,10 +1675,319 @@ No, in Java, destructors cannot be declared as virtual like in C++. The concept 
 When to Use It -
     * Since virtual destructors are not applicable in Java, there's no specific scenario where you would use them. Instead, in Java, you rely on the garbage collector to automatically free memory when objects are no longer referenced.
 
+-----Inheritance-----
+
+1. What is Inheritance ?
+Answer :
+* Inheritance ek OOP concept hai jisme ek class doosri class ke properties aur methods ko inherit kar sakti hai.
+* Matlab, ek class doosri class ke features ko apna sakti hai bina usko dobara likhe.
+* Syntax -
+    class ParentClass {
+        -----> parent class properties and methods
+    }
+    class ChildClass extends ParentClass {
+        -----> child class inherits all properties and methods of ParentClass
+    }
+
+2. What is the need of Inheritance ?
+Answer :
+* Inheritance ka need tab hota hai jab aapko apni classes mein code reuse karna ho.
+* Agar aapke paas common functionalities hain jo multiple classes mein use ho rahi hain, toh unhe ek parent class mein define karke baaki child classes ko usse inherit kar sakte hain.
+* This reduces code duplication.
+
+3. What is Sub-Class ?
+Answer :
+* Sub-Class yaani child class, woh class hoti hai jo kisi parent (super) class ko inherit karti hai.
+* Sub-class parent class ke saare methods aur properties access kar sakti hai.
+* Ex -
+    class Animal {
+        void makeSound() {
+            System.out.println("Animal is making a sound");
+        }
+    }
+    class Dog extends Animal {
+        void bark() {
+            System.out.println("Dog is barking");
+        }
+    }
+
+4. What is Super-Class ?
+Answer :
+* Super-Class yaani parent class, jo child class ko apni properties aur methods inherit karne deti hai.
+* Super-Class ko hum “base class” bhi bolte hain.
+
+5. What is Reusability ?
+Answer :
+* Reusability ka matlab hota hai ki aapne jo code ek baar likha hai, usko multiple times reuse karna without duplicating it.
+* Inheritance is one of the key ways to achieve reusability.
+
+6. Can OOP exist without Inheritance ?
+Answer :
+* Yes, OOP ke baaki concepts (jaise encapsulation, polymorphism) inheritance ke bina bhi exist kar sakte hain.
+* Lekin inheritance se aapko code reuse kaafi efficiently milta hai, jo OOP ka ek important feature hai.
+
+7. What are these types of Inheritance :
+    Single
+    Multiple
+    Hierarchical
+    Multilevel
+    Hybrid / Virtual
+Answer :
+* Single Inheritance -
+    Ek child class ek hi parent class se inherit karti hai.
+    Syntax -
+        class A {
+            -----> Parent class
+        }
+        class B extends A {
+            -----> Child class
+        }
+* Multiple Inheritance -
+    Ek class multiple parent classes se inherit karti hai.
+    Java mein yeh directly support nahi hota due to diamond problem.
+    But interfaces ke through achieve kiya ja sakta hai.
+* Hierarchical Inheritance -
+    Ek parent class ko multiple child classes inherit karti hain.
+    Syntax -
+        class A {
+            -----> Parent class
+        }
+        class B extends A {
+            -----> Child class 1
+        }
+        class C extends A {
+            -----> Child class 2
+        }
+* Multilevel Inheritance -
+    Ek child class doosri child class se inherit karti hai, forming a chain.
+    Syntax -
+        class A {
+            -----> Parent class
+        }
+        class B extends A {
+            -----> Child class
+        }
+        class C extends B {
+            -----> Grandchild class
+        }
+* Hybrid Inheritance -
+    Yeh combination hota hai multiple aur multilevel inheritance ka.
+    Java mein yeh inheritance multiple se related issues ki wajah se fully supported nahi hota, lekin interfaces use karke isse implement kar sakte hain.
+
+8. What is the real-life example of Single Inheritance ?
+Answer :
+* Ex -
+    Parent: Vehicle
+    Child: Car
+    In this case, Car class inherits properties from Vehicle class like speed, wheels, etc.
+
+9. What is the real-life example of Multiple Inheritance ?
+Answer :
+* Ex -
+    Parent 1: FlyingVehicle
+	Parent 2: RoadVehicle
+	Child: FlyingCar
+    Interfaces ke through aap yeh achieve kar sakte ho jisme ek car jo road pe bhi chal sakti hai aur fly bhi kar sakti hai.
+
+10. What is the real-life example of Hierarchical Inheritance ?
+Answer :
+* Ex -
+    Parent: Vehicle
+	Child 1: Car
+	Child 2: Bike
+    Vehicle class ko Car aur Bike inherit karti hain, but dono apne specific features add karti hain.
+
+11. What is the real-life example of Multilevel Inheritance ?
+Answer :
+* Ex -
+    Grandparent: LivingBeing
+	Parent: Animal
+	Child: Dog
+    Isme LivingBeing se Animal inherit karta hai aur Animal se Dog.
+
+12. What is the real-life example of Hybrid / Virtual Inheritance ?
+Answer :
+* Ex -
+    Parent 1: FlyingVehicle
+	Parent 2: AmphibiousVehicle
+	Child: AmphibiousFlyingCar
+    Hybrid inheritance ko multiple inheritance aur multilevel inheritance ka combination samjha jaata hai.
+
+13. What are the limitations of Inheritance ?
+Answer :
+* Tight Coupling -
+    Inheritance se classes tightly coupled ho jaati hain, matlab ek class ki changes doosri classes ko bhi affect kar sakti hain.
+* Increased Complexity -
+    Multilevel ya hybrid inheritance se program ka complexity badh jaata hai, jo bugs ke chances badha sakta hai.
+* Not Suitable for All Situations -
+    Har problem inheritance ke through solve nahi ho sakti.
+    Kabhi kabhi composition ya interfaces better option hote hain.
+
+14. What is Sealed Modifier ?
+Answer :
+* Sealed classes ko Java mein restrict karne ke liye use kiya jaata hai, jisme kuch specific classes hi inherit kar sakti hain.
+* Yeh Java 15 mein introduce hua tha.
+* Isse aap inheritance ke use ko limit kar sakte hain.
+
+15. How can we call the base method without creating an instance ?
+Answer :
+* Static methods ka use karke aap base class ka method bina instance create kiye call kar sakte hain.
+
+16. What is the difference between new and override ?
+Answer :
+* new - Java mein new keyword object creation ke liye use hota hai.
+* override - Method overriding ka matlab hota hai parent class ke method ko child class mein redefine karna.
+
+17. Why Java does not support Multiple Inheritance ?
+Answer :
+* Java multiple inheritance ko isliye support nahi karta because of Diamond Problem, jisme ambiguity create ho jaati hai jab ek child class multiple parent classes se inherit karti hai jo same method define karti hain.
+
+18. What is Diamond Problem in case of Multiple Inheritance ?
+Answer :
+* Diamond problem tab hota hai jab ek class multiple parent classes se inherit karti hai aur un parent classes mein same method hoti hai.
+* Java isse avoid karta hai by not supporting multiple inheritance directly.
+
+19. If Class A inherits from Class B, then what all is inherited from Parent Class ?
+    Explore every combination.
+Answer :
+* Inherited - Properties, methods.
+* Not Inherited - Private members, constructors.
+* Special case - Final methods and static members are accessed but not inherited.
+
+20. What is Object Slicing ?
+Answer :
+* Object Slicing tab hota hai jab aap child class ka object ko parent class ke object mein assign karte hain, aur child class ke extra members lose ho jaate hain.
+
+21. How to ride base class methods / functions ?
+Answer :
+* Method overriding ka matlab hota hai ki jab child class parent class ke method ko apni tarike se redefine karti hai.
+* Isme signature same hota hai but functionality child class ke according change ki jaati hai.
+* Ex -
+    class Animal {
+        void sound() {
+            System.out.println("Animal makes a sound");
+        }
+    }
+    class Dog extends Animal {
+        @Override
+        void sound() {
+            System.out.println("Dog barks");
+        }
+    }
+* Note -
+    @Override annotation ensure karta hai ki method correctly override ho raha hai.
+
+22. What is Friend Function / Friend Class / Inline Function ?
+Answer :
+* Friend Function (C++ specific) -
+    Friend Function ek aisi function hoti hai jo class ke private members ko directly access kar sakti hai even though woh class ka part nahi hai.
+	Java mein ye concept nahi hota.
+    Yeh C++ mein relevant hai.
+* Friend Class (C++ specific) -
+    Ek class ko doosri class ka friend declare kiya ja sakta hai.
+    Matlab friend class doosri class ke private members ko access kar sakti hai.
+* Inline Function (C++ specific) -
+    Inline functions C++ mein hoti hain, jisme small functions ka code inline expand hota hai during compilation to avoid the overhead of function call.
+
+23. What is Local Class / Nested Class / Simulating Final Class ?
+Answer :
+* Local Class -
+    Yeh ek inner class hota hai jo method ke andar define kiya jaata hai.
+    Yeh sirf us method ke andar accessible hota hai.
+    Ex -
+        void display() {
+            class Local {
+                void show() {
+                    System.out.println("Local Class");
+                }
+            }
+            Local local = new Local();
+            local.show();
+        }
+* Nested Class -
+    Jab ek class doosri class ke andar define hoti hai, usse nested class kehte hain.
+    Nested classes ko ek object ke through access kiya jaata hai.
+    Ex -
+        class Outer {
+            class Inner {
+                void display() {
+                    System.out.println("Nested Class");
+                }
+            }
+        }
+* Simulating Final Class -
+    Java mein final keyword use karke class ko extend karne se roka ja sakta hai.
+    Simulating final class ka matlab hota hai ki inheritance ko restrict karna.
+    Ex -
+        final class MyClass {
+            -----> No class can extend MyClass
+        }
+
+24. Does overloading works in Inheritance ?
+Answer :
+* Yes, method overloading inheritance mein work karti hai.
+* Parent aur child class dono apne apne methods ko overload kar sakti hain.
+* Overloading ka matlab hai ek hi class ke andar same method name ke saath different parameters define karna.
+* Ex -
+    class Animal {
+        void sound() {
+            System.out.println("Animal sound");
+        }
+        void sound(String type) {
+            System.out.println(type + " sound");
+        }
+    }
+    class Dog extends Animal {
+        -----> Inherited overloaded methods can also be used
+    }
+
+25. What is the difference between Polymorphism and Inheritance ?
+Answer :
+* Inheritance
+	Ek class doosri class ke features (methods and properties) ko inherit karti hai.
+    Yeh parent-child relationship ko represent karta hai.
+	Focus - Code reuse.
+* Polymorphism
+	Ek functionality multiple forms le sakti hai, jaise method overriding aur method overloading.
+	Focus - Flexibility in behavior.
+* Key Difference -
+    Inheritance focuses on reusability, while polymorphism focuses on flexibility in method implementation (like overriding and overloading).
+
+26. What is Generalisation / Aggregation / Composition ?
+Answer :
+* These are relationship types in object-oriented design.
+	Generalization -
+	Iska matlab hota hai common features ko ek generic parent class mein define karna, aur baaki specific features ko child classes mein define karna.
+    Ex -
+        Parent: Vehicle (general class)
+        Child: Car, Bike (specific classes)
+	Aggregation -
+        Aggregation ek “has-a” relationship ko represent karta hai, jisme ek object doosre object ka part hota hai, lekin dono independent hoti hain.
+        Ex -
+            A Department has many Employees, but both can exist independently.
+	Composition -
+        Composition ek stronger form of aggregation hai, jisme ek object doosre object ke bina exist nahi kar sakta.
+        Ex -
+            A House has a Room. A room cannot exist without a house.
+* Difference -
+    In aggregation, objects are independent, but in composition, one object cannot exist without the other.
+
 -----Polymorphism-----
 
 1. What is Polymorphism ?
+Answer :
+* Polymorphism ka matlab hota hai “many forms.”
+* Ek object ya method apne multiple forms ya behaviors ko represent kar sakta hai.
+* Ex -
+    Ek method jo different classes me alag tarike se behave karta hai. Jaise, ek Animal class ka method sound() dog aur cat class me alag alag sound produce karega.
+
 2. What is the need of Polymorphism ?
+Answer :
+* Polymorphism is needed to achieve -
+	Code Reusability - Ek hi code multiple objects ke liye kaam karta hai.
+	Flexibility - Aap ek interface ya base class ke through objects ko deal kar sakte ho, aur actual behavior runtime pe decide hota hai (run-time polymorphism).
+    Maintenance - Code kaafi modular hota hai, jisme alag classes ko maintain aur extend karna aasaan hota hai.
+
 3. Explain the Categorisation :
     What is Function / Operator Overloading ?
         What is Complie Time Polymorphism ?
@@ -1686,78 +1995,170 @@ When to Use It -
         What are all the operators that cannot be overloaded ?
     What is Function Overriding ?
         What is Run Time Polymorphism ?
+Answer :
+* Function / Method Overloading -
+    Function Overloading ya Method Overloading ka matlab hota hai ek class ke andar same method name hone ke baad bhi different parameters ke saath multiple methods ko define karna.
+    Ex -
+        class Calculator {
+            int add(int a, int b) {
+                return a + b;
+            }
+            double add(double a, double b) {
+                return a + b;
+            }
+        }
+* Compile-Time Polymorphism -
+    Compile-time polymorphism ko static polymorphism bhi kehte hain.
+    Yeh tab achieve hota hai jab methods compile-time pe decide ho jate hain, jaise method overloading.
+* Functions that cannot be overloaded in Java -
+    Java mein -
+	Static methods ko overload kiya ja sakta hai, but they cannot be overridden.
+	final methods ko overload kiya ja sakta hai, lekin override nahi kar sakte.
+	Constructors can be overloaded but cannot be inherited or overridden.
+* Operators that cannot be overloaded(C++) -
+    Java mein operator overloading nahi hoti.
+    Lekin C++ mein kuch operators overload nahi ho sakte, jaise -
+        . (dot operator)
+        :: (scope resolution)
+        sizeof
+        ?: (ternary operator)
+* Function Overriding -
+    Function Overriding ka matlab hota hai jab ek derived class (child class) apne parent class ke method ko override kar ke redefine karti hai.
+    Ex -
+        class Animal {
+            void sound() {
+                System.out.println("Animal makes a sound");
+            }
+        }
+        class Dog extends Animal {
+            @Override
+            void sound() {
+                System.out.println("Dog barks");
+            }
+        }
+* Run-Time Polymorphism -
+    Run-time polymorphism ko dynamic polymorphism bhi kehte hain.
+    Yeh tab hota hai jab method call run-time pe decide hota hai, jaise method overriding.
+
 4. What is Virtual Function ?
+Answer :
+* Java mein virtual functions ka concept nahi hota explicitly, kyunki har method implicitly virtual hota hai.
+* But, agar hum C++ ki baat karein -
+	A virtual function is a method in a base class that can be overridden by a derived class to provide dynamic polymorphism.
+
 5. What is Virtual Class ?
+Answer :
+* Java mein virtual class ka direct concept nahi hai.
+* Yeh C++ ka concept hai jisme virtual inheritance use hota hai to solve the diamond problem.
+* Java mein diamond problem ko interfaces se solve kiya jaata hai.
+
 6. What is Derived Class ?
+Answer :
+* Ek derived class ya sub-class ek aisi class hoti hai jo ek existing class (super-class) se inherit karti hai.
+* Java mein inheritance ka use karke ek class ko derived banate hain.
+* Ex -
+    class Animal { } -----> Super class
+    class Dog extends Animal { } -----> Derived class
+
 7. Can Virtual Function be set "Private" ?
+Answer :
+* Java mein virtual function ka concept nahi hai, lekin agar hum C++ ki baat karein -
+	Yes, a virtual function can be private.
+    However, child classes cannot directly access private virtual functions, but can still override them.
+
 8. What is Inline Virtual Function ?
+Answer :
+* Java mein inline functions ka concept nahi hota.
+* Lekin C++ mein, an inline virtual function is a virtual function whose code is expanded inline to avoid function call overhead, but it’s rarely used because it defeats the purpose of virtual functions (dynamic dispatch).
+
 9. What is Abstract Class ?
+Answer :
+* Ek abstract class aisi class hoti hai jisme abstract methods hote hain, jinka implementation derived class provide karti hai.
+* Ek abstract class ko instantiate nahi kiya ja sakta.
+Ex -
+    abstract class Animal {
+        abstract void sound();
+    }
+    class Dog extends Animal {
+        void sound() {
+            System.out.println("Dog barks");
+        }
+    }
+
 10. What is Pure Virtual Function ?
+Answer :
+* Java mein pure virtual function ko equivalent abstract method kehte hain.
+* Matlab, ek method jo sirf declaration provide karta hai, lekin uska implementation subclass me hota hai.
+* Ex -
+    abstract class Shape {
+        abstract void draw(); -----> Pure virtual function (abstract in Java)
+    }
+
 11. What is Pure Virtual Destructor ?
+Answer :
+* Java mein destructors ka concept nahi hai because memory management garbage collection se handle hota hai.
+* Lekin C++ mein pure virtual destructor hota hai jab aapko base class ka destructor bhi virtual banana padta hai, but Java mein yeh needed nahi hota.
 
------Inheritance-----
+12. How overridding works in JAVA ?
+Answer :
 
-1. What is Inheritance ?
-2. What is the need of Inheritance ?
-3. What is Sub-Class ?
-4. What is Super-Class ?
-5. What is Reusability ?
-6. Can OOP exist without Inheritance ?
-7. What are these types of Inheritance :
-    Single
-    Multiple
-    Hierarchical
-    Multilevel
-    Hybrid / Virtual
-8. What is the real-life example of Single Inheritance ?
-9. What is the real-life example of Multiple Inheritance ?
-10. What is the real-life example of Hierarchical Inheritance ?
-11. What is the real-life example of Multilevel Inheritance ?
-12. What is the real-life example of Hybrid / Virtual Inheritance ?
-13. What are the limitations of Inheritance ?
-14. What is Sealed Modifier ?
-15. How can we call the base method without creating an instance ?
-16. What is the difference between new and override ?
-17. Why Java does not support Multiple Inheritance ?
-18. What is Diamond Problem in case of Multiple Inheritance ?
-19. If Class A inherits from Class B, then what all is inherited from Parent Class ?
-    Explore every combination.
-20. What is Object Slicing ?
-21. How to ride base class methods / functions ?
-22. What is Friend Function / Friend Class / Inline Function ?
-23. What is Local Class / Nested Class / Simulating Final Class ?
-24. Does overloading works in Inheritance ?
-25. What is the difference between Polymorphism and Inheritance ?
-26. What is Generalisation / Aggregation / Composition ?
+13. How Java determines which method to run ?
+Answer :
+
+14. Can we override static Methods ?
+Answer :
+
+
 
 -----Encapsulation-----
 
 1. What is Encapsulation ?
+Answer :
 2. What is the need of Encapsulation ?
+Answer :
 3. What are the advantages of Encapsulation ?
+Answer :
 4. How to achieve Encapsulation ?
+Answer :
 5. What are some real world examples of Encapsulation ?
+Answer :
 6. How to Implement Encapsulation in Code (JAVA) ?
+Answer :
 
 -----Abstraction-----
 
 1. What is Abstraction ?
+Answer :
 2. What is the need of Abstraction ?
+Answer :
 3. When to use Abstraction ?
+Answer :
 4. How to achieve Abstraction in JAVA :
     Interfaces
     Abstract Class
+Answer :
 5. What is the difference between Encapsulation and Abstraction ?
+Answer :
 6. What are the differences between interfaces and abstract class ?
+Answer :
+
+-----Data Hidding----
+
+1. What is Data Hidding ?
+Answer :
 
 -----Dynamic Binding-----
 
 1. What is Dynamic Binding ?
+Answer :
 2. What is the use of Dynamic Binding ?
+Answer :
 
 -----Message Binding-----
 
 1. What is Message Binding ?
+Answer :
 2. What is the use of Message Binding ?
+Answer :
 
 */
