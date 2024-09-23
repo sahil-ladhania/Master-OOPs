@@ -2101,64 +2101,279 @@ Answer :
 
 12. How overridding works in JAVA ?
 Answer :
+* Method Overriding ka matlab hota hai jab child class apne parent class ke method ko same signature ke saath redefine karti hai.
+* Jab child class ka object use karke method call kiya jata hai, to child class ka version run hota hai, even if method parent class me bhi defined hai.
+* Important Points -
+	Same Signature -
+        Method name, return type, and parameters must be the same in both parent and child classes.
+	@Override Annotation -
+        Yeh annotation optional hai, but use karne se pata chalta hai ki hum overriding kar rahe hain.
+	Access Modifier -
+        Child class ka method parent ke method se same ya zyada permissive access modifier use kar sakta hai, but more restrictive nahi ho sakta.
+	Runtime Polymorphism -
+        Java mein overriding runtime pe decide hoti hai, yani method call object type pe depend karta hai, not reference type pe.
+* Ex -
+    class Animal {
+        void sound() {
+            System.out.println("Animal makes a sound");
+        }
+    }
+    class Dog extends Animal {
+        @Override
+        void sound() {
+            System.out.println("Dog barks");
+        }
+    }
+    public class Test {
+        public static void main(String[] args) {
+            Animal animal = new Dog(); -----> Reference of Animal, object of Dog
+            animal.sound(); -----> Output: Dog barks (runtime pe decide hota hai)
+        }
+    }
 
 13. How Java determines which method to run ?
 Answer :
+* Java determines which method to run at runtime using dynamic method dispatch.
+* Iska matlab hota hai ki method call object ke actual type ke basis pe decide hota hai, even if reference type different ho.
+	Jab aap method call karte ho, toh Java pehle reference type dekhta hai, but method ka execution object type ke basis pe hota hai.
+	Agar child class ne method override kiya hai, toh child class ka version run hoga, even if aap reference parent class ka use kar rahe ho.
+* Ex -
+    Animal animal = new Dog();
+    animal.sound(); -----> Even though reference is Animal, Dog's sound() is called
+    Yeh runtime polymorphism ka part hota hai.
 
 14. Can we override static Methods ?
 Answer :
-
-
+* No, static methods cannot be overridden in Java.
+    Static methods ko method hiding kehte hain, na ki overriding.
+    Jab aap static method ko child class me define karte ho jo parent class ke static method jaisa hota hai, toh yeh method hiding hota hai.
+	Static methods class ke saath bound hote hain, na ki object ke saath.
+    Isiliye, static methods ka method call compile-time pe decide hota hai, not runtime pe.
+* Ex -
+    class Parent {
+        static void display() {
+            System.out.println("Static method in Parent");
+        }
+    }
+    class Child extends Parent {
+        static void display() {
+            System.out.println("Static method in Child");
+        }
+    }
+    public class Test {
+        public static void main(String[] args) {
+            Parent p = new Child();
+            p.display(); -----> Output: Static method in Parent (no overriding)
+        }
+    }
 
 -----Encapsulation-----
 
 1. What is Encapsulation ?
 Answer :
+* Encapsulation ka matlab hota hai data hiding aur code ko wrap karna ek single unit me.
+* Iska main goal hai ki class ke data members (variables) ko direct access se bachaya jaye, aur unhe sirf methods ke through manipulate kiya jaye.
+
 2. What is the need of Encapsulation ?
 Answer :
+* Encapsulation isliye zaroori hota hai kyunki -
+	Data ko protect karna - Direct access ko rokh kar hum data ki safety ensure karte hain.
+	Maintainability - Code ka structure controlled aur organized rehta hai, taaki future changes aasan ho jaye.
+	Controlled access - Aap data ko sirf authorized methods ke zariye access kar sakte ho.
+
 3. What are the advantages of Encapsulation ?
 Answer :
+* Data Hiding -
+    Data ko bahar ke users ke liye chhupa ke rakhta hai.
+* Loose Coupling -
+    Class ke internal implementation ko hide karta hai, jo flexibility aur maintainability provide karta hai.
+* Reusability -
+    Encapsulated code ko baar baar reuse kiya ja sakta hai bina uski implementation detail ke.
+
 4. How to achieve Encapsulation ?
 Answer :
+* Encapsulation ko achieve karne ke liye -
+	Private variables use karo taaki wo class ke andar restricted rahe.
+	Public getter/setter methods use karo to control access to the private variables.
+
 5. What are some real world examples of Encapsulation ?
 Answer :
+* ATM machine -
+    Aapko bas input dena hai aur output lena hai, machine ka internal kaise kaam karta hai wo chhupa hota hai.
+* Mobile phone -
+    Aapko mobile ke internal circuitry ki knowledge nahi chahiye, bas aapko buttons ya touchscreen use karna aata hai.
+
 6. How to Implement Encapsulation in Code (JAVA) ?
 Answer :
+* Implementation -
+    class Account {
+        -----> Private variables
+        private String accountNumber;
+        private double balance;
+        -----> Constructor
+        public Account(String accountNumber, double balance) {
+            this.accountNumber = accountNumber;
+            this.balance = balance;
+        }
+        -----> Getter for accountNumber
+        public String getAccountNumber() {
+            return accountNumber;
+        }
+        -----> Setter for balance
+        public void setBalance(double balance) {
+            if (balance > 0) {
+                this.balance = balance;
+            }
+        }
+        -----> Getter for balance
+        public double getBalance() {
+            return balance;
+        }
+    }
+    public class TestEncapsulation {
+        public static void main(String[] args) {
+            Account account = new Account("123456789", 5000.0);
+            System.out.println("Account Number: " + account.getAccountNumber());
+            System.out.println("Balance: " + account.getBalance());
+            -----> Updating balance through setter method
+            account.setBalance(6000.0);
+            System.out.println("Updated Balance: " + account.getBalance());
+        }
+    }
 
 -----Abstraction-----
 
 1. What is Abstraction ?
 Answer :
+* Abstraction ka matlab hota hai essential details ko show karna aur unnecessary details ko hide karna.
+* Iska focus hota hai ki user ko bas necessary information di jaye, aur complex implementation ko hide kiya jaye.
+
 2. What is the need of Abstraction ?
 Answer :
+* Abstraction isliye zaroori hai taaki -
+	Complexity ko kam kiya ja sake.
+	Focus sirf relevant details pe ho.
+	Implementation details chhupi rahein, sirf functionality pe concentrate ho.
+
 3. When to use Abstraction ?
 Answer :
+* Abstraction ka use tab hota hai jab -
+	Aapko real-world objects ko represent karna ho bina unke complex internals ke.
+	Jab multiple classes similar functionality implement kar rahe ho, abstraction unko simplify karta hai.
+
 4. How to achieve Abstraction in JAVA :
     Interfaces
     Abstract Class
 Answer :
+* Interfaces -
+    Interface ek abstract type hota hai jo sirf methods ke signature define karta hai, implementation nahi.
+    Ex -
+        interface Animal {
+            void sound();
+        }
+        class Dog implements Animal {
+            @Override
+            public void sound() {
+                System.out.println("Dog barks");
+            }
+        }
+* Abstract Class -
+    Abstract class me kuch methods abstract ho sakte hain (sirf signature) aur kuch methods concrete (with body) bhi ho sakte hain.
+    Ex -
+        abstract class Animal {
+            abstract void sound(); -----> Abstract method
+            void sleep() { -----> Concrete method
+                System.out.println("Animal is sleeping");
+            }
+        }
+        class Dog extends Animal {
+            @Override
+            void sound() {
+                System.out.println("Dog barks");
+            }
+        }
+
 5. What is the difference between Encapsulation and Abstraction ?
 Answer :
+* Encapsulation - Data ko hide karta hai aur class ke andar protect karta hai.
+* Abstraction - Sirf essential details ko expose karta hai aur unnecessary complexity ko hide karta hai.
+
 6. What are the differences between interfaces and abstract class ?
 Answer :
+* Refer to Image.
 
 -----Data Hidding----
 
 1. What is Data Hidding ?
 Answer :
+* Data Hiding ka matlab hota hai internal details ko external access se protect karna. I
+* ska purpose hai ki class ke critical data members ko direct access na diya jaye, sirf trusted methods ke zariye hi unko access ya modify kiya ja sake.
+* This ensures security and integrity of data.
+* Ex -
+    Agar aapke paas ek class hai jo bank account ko represent karti hai, to aap balance ko private rakhoge aur methods like getBalance() aur deposit() provide karoge taaki balance ko change karne ka proper tareeka rahe.
+    class BankAccount {
+        private double balance;  -----> Data hiding
+        public void deposit(double amount) {
+            if(amount > 0) {
+                balance += amount;
+            }
+        }
+        public double getBalance() {
+            return balance;
+        }
+    }
+    Is example mein, balance ko private rakha gaya hai taaki wo direct access na ho, aur usko access karne ke liye methods ka use kiya jaye.
 
 -----Dynamic Binding-----
 
 1. What is Dynamic Binding ?
 Answer :
+* Dynamic Binding ko kabhi kabhi late binding bhi kehte hain.
+* Iska matlab hota hai ki method ka call run-time par resolve hota hai, jab actual object ka type pata hota hai.
+* Yani jab aapke paas base class ka reference hota hai, par actual object derived class ka hota hai, to Java run-time pe decide karta hai ki kaunsa method call hoga.
+* Ex -
+    class Animal {
+        void sound() {
+            System.out.println("Animal makes a sound");
+        }
+    }
+    class Dog extends Animal {
+        @Override
+        void sound() {
+            System.out.println("Dog barks");
+        }
+    }
+    class TestDynamicBinding {
+        public static void main(String[] args) {
+            Animal animal = new Dog(); -----> Reference is Animal, but object is Dog
+            animal.sound();  -----> Dog's sound method will be called at run-time
+        }
+    }
+    Is example mein, object Dog ka hai par reference Animal ka, aur method sound() call hone ka decision run-time pe hota hai.
+
 2. What is the use of Dynamic Binding ?
 Answer :
+* Dynamic binding ka main use polymorphism ko enable karna hai -
+	Flexibility -
+        Aap generic code likh sakte ho jo different objects ke liye kaam kare.
+	Code Reusability -
+        Base class ke reference ke through derived class ke methods ko call karne ki ability deta hai without knowing the exact object type at compile time.
 
 -----Message Binding-----
 
 1. What is Message Binding ?
 Answer :
+* Message Binding concept ka matlab hota hai method call ko object ke sath bind karna taaki jab message (method call) diya jaye to wo appropriate object ke method ko invoke kare.
+* Yeh concept mainly object-oriented programming ke communication ko refer karta hai, jisme objects methods ko invoke karne ke liye “messages” exchange karte hain.
+* Ex -
+    Jab ek object doosre object ko method call karta hai, to wo method ke naam ko message ke roop me bhejta hai, aur jis object ko call karna hai, wo respond karta hai.
+
 2. What is the use of Message Binding ?
 Answer :
+* Message binding ka main use hota hai communication between objects ko facilitate karna -
+	Interaction between Objects -
+        Multiple objects ke beech mein communication ko allow karta hai, jo ek core concept hai OOPs ka.
+	Loose Coupling -
+        Message binding se objects loosely coupled hote hain, yani ek object ko doosre object ki exact implementation detail nahi pata hoti, sirf uska interface pata hota hai.
 
 */
