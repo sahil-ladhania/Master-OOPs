@@ -1911,17 +1911,33 @@ Answer :
 Answer :
 * Polymorphism ka matlab hota hai “many forms.”
 * Ek object ya method apne multiple forms ya behaviors ko represent kar sakta hai.
+* Key Points -
+	Overloading - Same method ka naam, lekin different signatures.
+	Overriding - Parent class ka method child class ke method se replace ho jata hai.
+	Polymorphism ka main advantage hai code reusability aur maintainability.
 * Ex -
     Ek method jo different classes me alag tarike se behave karta hai. Jaise, ek Animal class ka method sound() dog aur cat class me alag alag sound produce karega.
 
-2. What is the need of Polymorphism ?
+2. What are the types of Polymorphism ?
+Answer :
+* Types of Polymorphism -
+	Compile-Time Polymorphism | Static Binding | Function/Operator Overloading -
+        Isse Method Overloading bhi kehte hain.
+        Same method ka naam, lekin arguments alag hote hain (number ya type of parameters differ karte hain).
+        Compiler compile time pe decide karta hai ki kaunsa method call hoga.
+	Run-Time Polymorphism | Dynamic Binding | Function Overriding -
+        Isse Method Overriding bhi kehte hain.
+        Subclass apne parent class ka method override karta hai, aur run-time pe decide hota hai ki kaunsa method call hoga.
+        Dynamic binding hoti hai, yaani actual object ke type pe depend karta hai ki kaunsa method call hoga.
+
+3. What is the need of Polymorphism ?
 Answer :
 * Polymorphism is needed to achieve -
 	Code Reusability - Ek hi code multiple objects ke liye kaam karta hai.
 	Flexibility - Aap ek interface ya base class ke through objects ko deal kar sakte ho, aur actual behavior runtime pe decide hota hai (run-time polymorphism).
     Maintenance - Code kaafi modular hota hai, jisme alag classes ko maintain aur extend karna aasaan hota hai.
 
-3. Explain the Categorisation :
+4. Explain the Categorisation :
     What is Function / Operator Overloading ?
         What is Complie Time Polymorphism ?
         What Function cannot be overloaded in Java / C++ ?
@@ -1973,19 +1989,19 @@ Answer :
     Run-time polymorphism ko dynamic polymorphism bhi kehte hain.
     Yeh tab hota hai jab method call run-time pe decide hota hai, jaise method overriding.
 
-4. What is Virtual Function ?
+5. What is Virtual Function ?
 Answer :
 * Java mein virtual functions ka concept nahi hota explicitly, kyunki har method implicitly virtual hota hai.
 * But, agar hum C++ ki baat karein -
 	A virtual function is a method in a base class that can be overridden by a derived class to provide dynamic polymorphism.
 
-5. What is Virtual Class ?
+6. What is Virtual Class ?
 Answer :
 * Java mein virtual class ka direct concept nahi hai.
 * Yeh C++ ka concept hai jisme virtual inheritance use hota hai to solve the diamond problem.
 * Java mein diamond problem ko interfaces se solve kiya jaata hai.
 
-6. What is Derived Class ?
+7. What is Derived Class ?
 Answer :
 * Ek derived class ya sub-class ek aisi class hoti hai jo ek existing class (super-class) se inherit karti hai.
 * Java mein inheritance ka use karke ek class ko derived banate hain.
@@ -1993,18 +2009,18 @@ Answer :
     class Animal { } -----> Super class
     class Dog extends Animal { } -----> Derived class
 
-7. Can Virtual Function be set "Private" ?
+8. Can Virtual Function be set "Private" ?
 Answer :
 * Java mein virtual function ka concept nahi hai, lekin agar hum C++ ki baat karein -
 	Yes, a virtual function can be private.
     However, child classes cannot directly access private virtual functions, but can still override them.
 
-8. What is Inline Virtual Function ?
+9. What is Inline Virtual Function ?
 Answer :
 * Java mein inline functions ka concept nahi hota.
 * Lekin C++ mein, an inline virtual function is a virtual function whose code is expanded inline to avoid function call overhead, but it’s rarely used because it defeats the purpose of virtual functions (dynamic dispatch).
 
-9. What is Abstract Class ?
+10. What is Abstract Class ?
 Answer :
 * Ek abstract class aisi class hoti hai jisme abstract methods hote hain, jinka implementation derived class provide karti hai.
 * Ek abstract class ko instantiate nahi kiya ja sakta.
@@ -2018,7 +2034,7 @@ Ex -
         }
     }
 
-10. What is Pure Virtual Function ?
+11. What is Pure Virtual Function ?
 Answer :
 * Java mein pure virtual function ko equivalent abstract method kehte hain.
 * Matlab, ek method jo sirf declaration provide karta hai, lekin uska implementation subclass me hota hai.
@@ -2027,12 +2043,12 @@ Answer :
         abstract void draw(); -----> Pure virtual function (abstract in Java)
     }
 
-11. What is Pure Virtual Destructor ?
+12. What is Pure Virtual Destructor ?
 Answer :
 * Java mein destructors ka concept nahi hai because memory management garbage collection se handle hota hai.
 * Lekin C++ mein pure virtual destructor hota hai jab aapko base class ka destructor bhi virtual banana padta hai, but Java mein yeh needed nahi hota.
 
-12. How overridding works in JAVA ?
+13. How overridding works in JAVA ?
 Answer :
 * Method Overriding ka matlab hota hai jab child class apne parent class ke method ko same signature ke saath redefine karti hai.
 * Jab child class ka object use karke method call kiya jata hai, to child class ka version run hota hai, even if method parent class me bhi defined hai.
@@ -2064,7 +2080,7 @@ Answer :
         }
     }
 
-13. How Java determines which method to run ?
+14. How Java determines which method to run ?
 Answer :
 * Java determines which method to run at runtime using dynamic method dispatch.
 * Iska matlab hota hai ki method call object ke actual type ke basis pe decide hota hai, even if reference type different ho.
@@ -2075,7 +2091,7 @@ Answer :
     animal.sound(); -----> Even though reference is Animal, Dog's sound() is called
     Yeh runtime polymorphism ka part hota hai.
 
-14. Can we override static Methods ?
+15. Can we override static Methods ?
 Answer :
 * No, static methods cannot be overridden in Java.
     Static methods ko method hiding kehte hain, na ki overriding.
@@ -2099,6 +2115,37 @@ Answer :
             p.display(); -----> Output: Static method in Parent (no overriding)
         }
     }
+
+15. Is it compulsary to write the annotation @Override ?
+Answer :
+* Why @Override is Optional -
+	Functionality -
+        Even if you don’t use @Override, your code will still work.
+        Java will still override the method in the child class and execute the correct method based on runtime polymorphism.
+	Annotation Role -
+        The @Override annotation is simply a way to tell the compiler that you intend to override a method from the parent class.
+        It acts as a form of metadata, giving more clarity to both you and the compiler.
+* Why You Should Use @Override -
+	Catch Errors -
+        If you mistakenly write a method in the child class that doesn’t correctly match the parent’s method signature (e.g., wrong name or parameters), without @Override, Java won’t complain, and you might think you’ve overridden the method when you haven’t.
+        Using @Override ensures that the compiler will catch such mistakes.
+        Ex -
+            @Override
+            void Sound() { -----> Notice the 'S' is capitalized instead of 'sound'
+                System.out.println("This will not override the parent method!");
+            }
+        Without @Override, Java will treat this as a new method, not an overridden one.
+        But with @Override, the compiler will flag this as an error because there’s no matching method in the parent class.
+	Code Clarity -
+        It makes your code more readable and clear to others (and your future self) that the method is meant to override a parent class method.
+	Maintenance -
+        In large codebases, it helps in identifying overridden methods easily, improving maintainability.
+* When to Avoid @Override -
+	Only if you’re intentionally not overriding a method from the parent class and are writing a completely new method.
+* Conclusion -
+	No, it’s not compulsory to use @Override.
+	Recommended to use it because it helps catch errors, improves code clarity, and ensures maintainability.
+    In my case, IntelliJ is letting it work because the method signatures match, but if there were a typo or mismatch, the @Override would help detect it early.
 
 -----Encapsulation-----
 
