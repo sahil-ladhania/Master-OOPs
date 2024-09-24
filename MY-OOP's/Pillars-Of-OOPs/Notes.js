@@ -2282,6 +2282,13 @@ Answer :
 Answer :
 * Abstraction ka matlab hota hai essential details ko show karna aur unnecessary details ko hide karna.
 * Iska focus hota hai ki user ko bas necessary information di jaye, aur complex implementation ko hide kiya jaye.
+* Abstraction ek aisi concept hai jisme hum complex details ko hide karte hain aur sirf important functionality ko highlight karte hain.
+* Iska main focus hota hai “what to do” rather than “how to do”.
+* Matlab hum user ko sirf wo features provide karte hain jo unke liye relevant hain, aur background ka complex logic unse hide kar dete hain.
+* Key Points -
+	Abstraction ka main goal hota hai complexity ko kam karna aur user ko simple interface provide karna.
+	Ye help karta hai unnecessary details ko hide karne me, jisse code maintainable aur easy to use ban jata hai.
+	Abstraction ko achieve karne ke liye abstract classes aur interfaces ka use hota hai in OOP.
 
 2. What is the need of Abstraction ?
 Answer :
