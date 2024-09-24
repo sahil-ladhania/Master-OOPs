@@ -203,32 +203,6 @@ Answer :
         car2.speed = 100;
     Dono cars ka structure same hai (brand, color, speed properties), kyunki dono Car class se bani hain. Lekin unki state alag hai (Honda vs Toyota, Red vs Blue).
 
------Miscellaneous Class Questions-----
-
-1. What are the Differences Between Structure and Class ?
-Answer :
-Structure
-    Language: Commonly used in C and C++.
-    Default Access Modifier: Public.
-    Inheritance: Not supported.
-    Use Case: Simple data grouping without behavior.
-Class
-    Language: Java, C++, C#.
-    Default Access Modifier: Private (in C++), No default in Java.
-    Inheritance: Supported.
-    Use Case: Encapsulation of data and behavior.
-
-2. What are the Similarities Between Structure and Class ?
-Answer :
-* Both can contain variables and methods.
-* Both can be instantiated to create objects.
-* Both can have constructors (in C++).
-
-3. When to Use Structure Over Class?
-Answer :
-* Use structures for lightweight objects that primarily store data and have little to no behavior.
-* In C++, if you need simple, plain old data types (PODs) without the overhead of class features like inheritance.
-
 -----Access Modifiers-----
 
 1. What is Access Modifiers in Java ?
@@ -336,31 +310,6 @@ Friend (C++ only) :
         friend class FriendClass;
 Protected Friend (C++ only) :
     Accessible by derived classes and classes in the same assembly.
-
------Member Functions-----
-
-1. What is Member Function in Java ?
-Answer :
-A member function (also known as a method) is a function that is defined within a class and operates on the objects of that class. It can access the data members (fields) of the class and can perform operations on these data members.
-Inside Class Function
-    Definition - Defined inside the class definition.
-    Inline Keyword - Suggests to the compiler to insert the code directly at the call point to reduce overhead.
-    Example -
-        class Example {
-            public void insideClassFunction() {
-            // function body
-            }
-        }
-Outside Class Function
-    Definition - Defined outside the class using the scope resolution operator (::).
-    Scope Resolution Operator - Used to define a function outside its class.
-    Example -
-        class Example {
-            public void outsideClassFunction();
-        }
-        void Example::outsideClassFunction() {
-            // function body
-        }
 
 -----Constructors-----
 
@@ -1640,41 +1589,6 @@ Super Keyword
     Example - In a subclass constructor, super() is used to call the constructor of the superclass.
     Real-world Analogy - Consider a family tree where each generation inherits traits from the previous one. The super keyword refers to the ancestors, accessing traits inherited from previous generations.
 
------Destructors-----
-
-1. What are Destructors in Java ?
-Answer :
-In Java, destructors as known in C++ do not exist. Instead, Java has a garbage collector that automatically handles memory management. However, Java provides a mechanism to clean up resources, which is done through the finalize method, though it is deprecated in recent versions.
-Private Destructor
-    Definition - A destructor that cannot be called outside the class, useful in singleton patterns.
-Virtual Destructor
-    Definition - Ensures derived class destructors are called.
-    Example -
-        virtual ~BaseClass() {}
-Pure Virtual Destructor
-    Definition - Used to make a class abstract.
-    Example -
-        virtual ~BaseClass() = 0;
-
-2. How Destructors are different from a Normal Member Function ?
-Answer :
-* Destructors have no return type.
-* Automatically called when an object goes out of scope.
-
-3. Can there be more than one destructor in a Class ?
-Answer :
-* Not possible; a class can have only one destructor.
-
-4. When do we need to write a user-defined destructor ?
-Answer :
-* Needed to release resources manually like file handles or network connections.
-
-5. Can a destructor be Virtual ?
-Answer :
-No, in Java, destructors cannot be declared as virtual like in C++. The concept of virtual destructors is not applicable in Java due to its automatic memory management through garbage collection.
-When to Use It -
-    * Since virtual destructors are not applicable in Java, there's no specific scenario where you would use them. Instead, in Java, you rely on the garbage collector to automatically free memory when objects are no longer referenced.
-
 -----Inheritance-----
 
 1. What is Inheritance ?
@@ -2375,5 +2289,91 @@ Answer :
         Multiple objects ke beech mein communication ko allow karta hai, jo ek core concept hai OOPs ka.
 	Loose Coupling -
         Message binding se objects loosely coupled hote hain, yani ek object ko doosre object ki exact implementation detail nahi pata hoti, sirf uska interface pata hota hai.
+
+-----Miscellaneous Class Questions-----
+
+1. What are the Differences Between Structure and Class ?
+Answer :
+Structure
+    Language: Commonly used in C and C++.
+    Default Access Modifier: Public.
+    Inheritance: Not supported.
+    Use Case: Simple data grouping without behavior.
+Class
+    Language: Java, C++, C#.
+    Default Access Modifier: Private (in C++), No default in Java.
+    Inheritance: Supported.
+    Use Case: Encapsulation of data and behavior.
+
+2. What are the Similarities Between Structure and Class ?
+Answer :
+* Both can contain variables and methods.
+* Both can be instantiated to create objects.
+* Both can have constructors (in C++).
+
+3. When to Use Structure Over Class?
+Answer :
+* Use structures for lightweight objects that primarily store data and have little to no behavior.
+* In C++, if you need simple, plain old data types (PODs) without the overhead of class features like inheritance.
+
+-----Member Functions-----
+
+1. What is Member Function in Java ?
+Answer :
+A member function (also known as a method) is a function that is defined within a class and operates on the objects of that class. It can access the data members (fields) of the class and can perform operations on these data members.
+Inside Class Function
+    Definition - Defined inside the class definition.
+    Inline Keyword - Suggests to the compiler to insert the code directly at the call point to reduce overhead.
+    Example -
+        class Example {
+            public void insideClassFunction() {
+            // function body
+            }
+        }
+Outside Class Function
+    Definition - Defined outside the class using the scope resolution operator (::).
+    Scope Resolution Operator - Used to define a function outside its class.
+    Example -
+        class Example {
+            public void outsideClassFunction();
+        }
+        void Example::outsideClassFunction() {
+            // function body
+        }
+
+-----Destructors-----
+
+1. What are Destructors in Java ?
+Answer :
+In Java, destructors as known in C++ do not exist. Instead, Java has a garbage collector that automatically handles memory management. However, Java provides a mechanism to clean up resources, which is done through the finalize method, though it is deprecated in recent versions.
+Private Destructor
+    Definition - A destructor that cannot be called outside the class, useful in singleton patterns.
+Virtual Destructor
+    Definition - Ensures derived class destructors are called.
+    Example -
+        virtual ~BaseClass() {}
+Pure Virtual Destructor
+    Definition - Used to make a class abstract.
+    Example -
+        virtual ~BaseClass() = 0;
+
+2. How Destructors are different from a Normal Member Function ?
+Answer :
+* Destructors have no return type.
+* Automatically called when an object goes out of scope.
+
+3. Can there be more than one destructor in a Class ?
+Answer :
+* Not possible; a class can have only one destructor.
+
+4. When do we need to write a user-defined destructor ?
+Answer :
+* Needed to release resources manually like file handles or network connections.
+
+5. Can a destructor be Virtual ?
+Answer :
+No, in Java, destructors cannot be declared as virtual like in C++. The concept of virtual destructors is not applicable in Java due to its automatic memory management through garbage collection.
+When to Use It -
+    * Since virtual destructors are not applicable in Java, there's no specific scenario where you would use them. Instead, in Java, you rely on the garbage collector to automatically free memory when objects are no longer referenced.
 
 */
