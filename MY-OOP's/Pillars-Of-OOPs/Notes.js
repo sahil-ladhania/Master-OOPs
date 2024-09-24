@@ -1594,7 +1594,7 @@ Super Keyword
 1. What is Inheritance ?
 Answer :
 * Inheritance ek OOP concept hai jisme ek class doosri class ke properties aur methods ko inherit kar sakti hai.
-* Matlab, ek class doosri class ke features ko apna sakti hai bina usko dobara likhe.
+* Matlab, ek class doosre class ke features ko apna sakta hai bina usko dobara likhe.
 * Syntax -
     class ParentClass {
         -----> parent class properties and methods
@@ -1625,22 +1625,7 @@ Answer :
         }
     }
 
-4. What is Super-Class ?
-Answer :
-* Super-Class yaani parent class, jo child class ko apni properties aur methods inherit karne deti hai.
-* Super-Class ko hum “base class” bhi bolte hain.
-
-5. What is Reusability ?
-Answer :
-* Reusability ka matlab hota hai ki aapne jo code ek baar likha hai, usko multiple times reuse karna without duplicating it.
-* Inheritance is one of the key ways to achieve reusability.
-
-6. Can OOP exist without Inheritance ?
-Answer :
-* Yes, OOP ke baaki concepts (jaise encapsulation, polymorphism) inheritance ke bina bhi exist kar sakte hain.
-* Lekin inheritance se aapko code reuse kaafi efficiently milta hai, jo OOP ka ek important feature hai.
-
-7. What are these types of Inheritance :
+4. What are these types of Inheritance :
     Single
     Multiple
     Hierarchical
@@ -1688,14 +1673,14 @@ Answer :
     Yeh combination hota hai multiple aur multilevel inheritance ka.
     Java mein yeh inheritance multiple se related issues ki wajah se fully supported nahi hota, lekin interfaces use karke isse implement kar sakte hain.
 
-8. What is the real-life example of Single Inheritance ?
+5. What is the real-life example of Single Inheritance ?
 Answer :
 * Ex -
     Parent: Vehicle
     Child: Car
     In this case, Car class inherits properties from Vehicle class like speed, wheels, etc.
 
-9. What is the real-life example of Multiple Inheritance ?
+6. What is the real-life example of Multiple Inheritance ?
 Answer :
 * Ex -
     Parent 1: FlyingVehicle
@@ -1703,7 +1688,7 @@ Answer :
 	Child: FlyingCar
     Interfaces ke through aap yeh achieve kar sakte ho jisme ek car jo road pe bhi chal sakti hai aur fly bhi kar sakti hai.
 
-10. What is the real-life example of Hierarchical Inheritance ?
+7. What is the real-life example of Hierarchical Inheritance ?
 Answer :
 * Ex -
     Parent: Vehicle
@@ -1711,7 +1696,7 @@ Answer :
 	Child 2: Bike
     Vehicle class ko Car aur Bike inherit karti hain, but dono apne specific features add karti hain.
 
-11. What is the real-life example of Multilevel Inheritance ?
+8. What is the real-life example of Multilevel Inheritance ?
 Answer :
 * Ex -
     Grandparent: LivingBeing
@@ -1719,7 +1704,7 @@ Answer :
 	Child: Dog
     Isme LivingBeing se Animal inherit karta hai aur Animal se Dog.
 
-12. What is the real-life example of Hybrid / Virtual Inheritance ?
+9. What is the real-life example of Hybrid / Virtual Inheritance ?
 Answer :
 * Ex -
     Parent 1: FlyingVehicle
@@ -1727,7 +1712,7 @@ Answer :
 	Child: AmphibiousFlyingCar
     Hybrid inheritance ko multiple inheritance aur multilevel inheritance ka combination samjha jaata hai.
 
-13. What are the limitations of Inheritance ?
+10. What are the limitations of Inheritance ?
 Answer :
 * Tight Coupling -
     Inheritance se classes tightly coupled ho jaati hain, matlab ek class ki changes doosri classes ko bhi affect kar sakti hain.
@@ -1736,6 +1721,40 @@ Answer :
 * Not Suitable for All Situations -
     Har problem inheritance ke through solve nahi ho sakti.
     Kabhi kabhi composition ya interfaces better option hote hain.
+
+11. What is Super-Class and Super Keyword ?
+Answer :
+* Super-class, jise Parent Class ya Base Class bhi kaha jata hai, wo class hai jisse doosri class (Child Class ya Subclass) inherit karti hai.
+* Super-class mein woh properties aur methods hote hain jo child classes ko inherit hote hain.
+* Iska use code reusability aur organization mein hota hai.
+* Key Points -
+	Inheritance -
+        Super-class se child class ko attributes aur behaviors (methods) milte hain.
+        Isse aapko naya code likhne ki zaroorat nahi padti.
+	Common Functionality -
+        Super-class mein woh common functionality rakhi jaati hai jo multiple child classes ke liye useful hoti hai.
+        Isse code duplication kam hota hai.
+	Ex -
+        Agar aapke paas ek Animal class hai, toh yeh super-class ho sakti hai jisse Dog, Cat, ya Bird classes inherit kar sakti hain.
+* super keyword Java (aur kuch dusre OOP languages) mein use hota hai, aur iska main purpose parent class ki properties aur methods ko access karna.
+* Yeh tab useful hota hai jab aap subclass ke andar parent class ki functionalities ko istemal karna chahte hain.
+* Key Points -
+	Accessing Parent Class Methods -
+        super ka use parent class ke methods ko call karne ke liye kiya jata hai, jab subclass mein usi method ka naam ho (overriding case).
+	Calling Parent Class Constructor -
+        Aap super() ka use parent class ka constructor call karne ke liye bhi kar sakte hain, taaki parent class ki initialization ho sake.
+	Avoiding Ambiguity -
+        Agar subclass aur parent class dono mein same naam ka variable ho, toh super.variableName ka use karke aap parent class ka variable access kar sakte hain.
+
+12. What is Reusability ?
+Answer :
+* Reusability ka matlab hota hai ki aapne jo code ek baar likha hai, usko multiple times reuse karna without duplicating it.
+* Inheritance is one of the key ways to achieve reusability.
+
+13. Can OOP exist without Inheritance ?
+Answer :
+* Yes, OOP ke baaki concepts (jaise encapsulation, polymorphism) inheritance ke bina bhi exist kar sakte hain.
+* Lekin inheritance se aapko code reuse kaafi efficiently milta hai, jo OOP ka ek important feature hai.
 
 14. What is Sealed Modifier ?
 Answer :
