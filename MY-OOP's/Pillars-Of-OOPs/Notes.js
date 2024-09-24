@@ -2153,6 +2153,24 @@ Answer :
 Answer :
 * Encapsulation ka matlab hota hai data hiding aur code ko wrap karna ek single unit me.
 * Iska main goal hai ki class ke data members (variables) ko direct access se bachaya jaye, aur unhe sirf methods ke through manipulate kiya jaye.
+* Encapsulation ek OOPs ka fundamental concept hai jo data (variables) aur methods (functions) ko ek unit me bundle karta hai, jaise ek class me.
+* Iska main purpose hai data ko hide karna aur control karna ki kaise us data ko access ya modify kiya jaye.
+* Key Points -
+	Data Hiding -
+        Class ke andar ke variables ko directly access nahi karne dete, mostly by using private keyword.
+	Controlled Access -
+        Public methods (jaise getters aur setters) ka use karke data ko access ya modify karte hain, taaki proper validation ya checks ho.
+	Security Enhance karna -
+        Data ko unauthorized access ya accidental modification se bacha sakte ho.
+	Maintainability Improve -
+        Agar internal implementation change bhi ho, toh external code par koi effect nahi padta.
+* Do’s -
+	Private variables ka use karo to data ko hide karo.
+	Public getters aur setters methods se data ko access/modify karna safe hota hai.
+	Setters me validation logic daalo taaki invalid data na aaye.
+* Don’ts -
+	Kabhi bhi variables ko public mat rakho unless zarurat ho.
+	Private variables ko directly class ke bahar se modify mat karo.
 
 2. What is the need of Encapsulation ?
 Answer :
@@ -2220,6 +2238,43 @@ Answer :
             System.out.println("Updated Balance: " + account.getBalance());
         }
     }
+
+7. What are the types of Encapsulation in Java ?
+Answer :
+* Encapsulation ke 2 main types hote hain, jo data ko kaise manage karte hain uske basis par classify kiye jaate hain -
+    Data Encapsulation (Data Hiding) -
+        Data encapsulation ka main purpose hai data ko hide karna from outside access.
+        Private variables ka use hota hai to restrict direct access.
+        Sirf public methods (getters/setters) ke through hi data ko access ya modify kar sakte ho.
+        Ex -
+            class Employee {
+                private String name;  -----> Data hidden (encapsulated)
+                public String getName() {  -----> Getter method for controlled access
+                    return name;
+                }
+                public void setName(String name) {  -----> Setter method for validation
+                    if(name != null && !name.isEmpty()) {
+                        this.name = name;
+                    }
+                }
+            }
+            Yaha name ko directly access nahi kar sakte; getName() aur setName() ka use karte hain to get or set the value.
+    Functional Encapsulation -
+        Functional encapsulation ka matlab hai methods ko bhi encapsulate karna, matlab kuch methods ko private rakhna taaki sirf internal working ke liye use ho sake.
+        Sirf required functionality ko public methods ke through expose kiya jata hai.
+        Ex -
+            class Calculator {
+                public int add(int a, int b) {  -----> Public method
+                    return a + b;
+                }
+                private void logOperation(String operation) {  -----> Private method for internal use
+                    System.out.println("Operation performed: " + operation);
+                }
+            }
+            Yaha add() method ko bahar se access kar sakte ho, lekin logOperation() method sirf class ke andar use ho sakti hai, kyunki wo private hai.
+* Key Difference -
+	Data Encapsulation - Focuses on hiding data (fields/variables).
+	Functional Encapsulation - Focuses on restricting access to methods/functions.
 
 -----Abstraction-----
 
