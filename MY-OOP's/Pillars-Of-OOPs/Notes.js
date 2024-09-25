@@ -203,6 +203,304 @@ Answer :
         car2.speed = 100;
     Dono cars ka structure same hai (brand, color, speed properties), kyunki dono Car class se bani hain. Lekin unki state alag hai (Honda vs Toyota, Red vs Blue).
 
+2. What is Object Class ?
+Answer :
+* Java mein Object class sabhi classes ka parent (super) class hota hai. Matlab, har class directly ya indirectly Object class ko inherit karti hai.
+* Iska matlab hai ki Java ki har class, chahe aap explicitly inherit karo ya nahi, implicitly Object class ke methods ko inherit karti hai.
+* Yeh root class hai sabhi classes ke liye, aur yeh kuch common methods provide karti hai jo har object ke liye useful hote hain.
+* Why is Object Class Used -
+    Object class ka purpose hai common functionalities provide karna jo har object ke liye applicable ho.
+    Ex -
+        •	Har object ko compare karne ke liye (equals method).
+        •	Object ko string representation mein convert karne ke liye (toString method).
+        •	Garbage collection ke pehle finalize karne ke liye (finalize method).
+
+3. What are these Object methods ?
+toString()
+finalize()
+hashCode()
+equals()
+clone()
+Answer :
+* In Java, the Object class provides several important methods that every object in Java has by default.
+* Let’s go over each one in detail :
+    toString() Method -
+        Purpose -
+            toString() method is used to provide a string representation of an object.
+            By default, it returns a string that consists of -
+                •	The class name of the object.
+                •	The “@” character.
+                •	The hashcode of the object in hexadecimal.
+        Default Implementation -
+            public String toString() {
+                return getClass().getName() + "@" + Integer.toHexString(hashCode());
+            }
+        Ex -
+            class Person {
+                String name;
+                Person(String name) {
+                    this.name = name;
+                }
+            }
+            public class Main {
+                public static void main(String[] args) {
+                    Person p = new Person("Sahil");
+                    System.out.println(p);  -----> Output: Person@15db9742
+                }
+            }
+        Custom Implementation (Overriding toString()) -
+            class Person {
+                String name;
+                Person(String name) {
+                    this.name = name;
+                }
+                @Override
+                public String toString() {
+                    return "Person's name is " + name;
+                }
+            }
+            public class Main {
+                public static void main(String[] args) {
+                    Person p = new Person("Sahil");
+                    System.out.println(p);  -----> Output: Person's name is Sahil
+                }
+            }
+        Usage -
+            When you try to print an object, Java internally calls the toString() method to display the string representation.
+    finalize() Method -
+        Purpose -
+            The finalize() method is called by the garbage collector on an object when it determines that there are no more references to the object.
+            It allows you to perform cleanup operations before the object is actually destroyed.
+        Default Implementation -
+            By default, finalize() does nothing.
+            protected void finalize() throws Throwable { }
+        Ex -
+            class Resource {
+                @Override
+                protected void finalize() throws Throwable {
+                    System.out.println("Resource is being cleaned up");
+                }
+            }
+            public class Main {
+                public static void main(String[] args) {
+                    Resource res = new Resource();
+                    res = null;
+                    System.gc();  -----> Explicitly requesting garbage collection
+                }
+            }
+        Note -
+            finalize() is not commonly used today because it’s unreliable and not guaranteed to be called in a timely manner.
+            Instead, you should use try-with-resources or other techniques to manage resources.
+    hashCode() Method -
+        Purpose -
+            hashCode() method returns an integer hash code value for an object.
+            This value is used for hashing operations like storing objects in hash-based collections.
+            Ex - HashMap, HashSet
+        Default Implementation -
+            By default, hashCode() returns a distinct integer for each object, based on the object’s memory address.
+            public native int hashCode();
+        Ex -
+            class Person {
+                String name;
+                Person(String name) {
+                    this.name = name;
+                }
+            }
+            public class Main {
+                public static void main(String[] args) {
+                    Person p1 = new Person("Sahil");
+                    Person p2 = new Person("Sahil");
+                    System.out.println(p1.hashCode());  -----> Each will have a different hash code
+                    System.out.println(p2.hashCode());
+                }
+            }
+        Custom Implementation (Overriding hashCode()) -
+            If you override equals(), you should also override hashCode() to ensure that two equal objects return the same hash code.
+            @Override
+            public int hashCode() {
+                return Objects.hash(name);
+            }
+        Usage -
+            Used for performance optimization in data structures that use hashing like HashMap or HashSet.
+    equals() Method -
+        Purpose -
+            equals() method compares two objects for equality.
+            By default, it checks if the two objects are the same instance (reference comparison).
+        Default Implementation -
+            public boolean equals(Object obj) {
+                return (this == obj);
+            }
+        Ex -
+            class Person {
+                String name;
+                Person(String name) {
+                    this.name = name;
+                }
+            }
+            public class Main {
+                public static void main(String[] args) {
+                    Person p1 = new Person("Sahil");
+                    Person p2 = new Person("Sahil");
+                    System.out.println(p1.equals(p2));  -----> false, since it compares references
+                }
+            }
+        Custom Implementation (Overriding equals()) -
+            To compare the actual data (eg - name), you need to override equals().
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) return true;
+                if (obj == null || getClass() != obj.getClass()) return false;
+                Person person = (Person) obj;
+                return name.equals(person.name);
+            }
+        Usage -
+            Used to compare the content of two objects, especially in collections like List, Set, or Map.
+    clone() Method -
+        Purpose -
+            clone() method is used to create a copy of an object.
+            This is part of the Cloneable interface.
+            It performs shallow copying by default (copies references, not deep data).
+        Default Implementation -
+            The clone() method is a native method, and it throws a CloneNotSupportedException if the object doesn’t implement the Cloneable interface.
+            protected native Object clone() throws CloneNotSupportedException;
+        Ex -
+            class Person implements Cloneable {
+                String name;
+                Person(String name) {
+                    this.name = name;
+                }
+                @Override
+                protected Object clone() throws CloneNotSupportedException {
+                    return super.clone();
+                }
+            }
+            public class Main {
+                public static void main(String[] args) throws CloneNotSupportedException {
+                    Person p1 = new Person("Sahil");
+                    Person p2 = (Person) p1.clone();
+                    System.out.println(p2.name);  -----> Output: Sahil
+                }
+            }
+        Shallow vs Deep Copy -
+            Shallow Copy - Copies references, not the actual data.
+            Deep Copy - Copies the actual data as well, which requires manual implementation.
+        Usage -
+            clone() is used to create a duplicate of an object.
+            However, it is rarely used today due to its complexity and the preference for alternative ways like using copy constructors.
+* Conclusion -
+    Each of these methods in the Object class has a significant purpose.
+        •	toString() is for string representation.
+        •	finalize() is for cleanup before garbage collection.
+        •	hashCode() is for hashing in collections.
+        •	equals() is for comparing objects based on content.
+        •	clone() is for creating object copies.
+
+6. What is instanceOf Operator ?
+Answer :
+* The instanceof operator is used to check whether an object is an instance of a specific class or interface.
+* It returns a boolean value (true or false), indicating if the object is of the specified type or not.
+* Syntax -
+    object instanceof ClassName
+        •	object - The object you want to check.
+        •	ClassName - The class or interface you want to compare the object against.
+* How it works -
+	If the object is an instance of the specified class or an instance of a subclass (inheritance), it returns true.
+	If the object is null, it always returns false.
+* Ex -
+    class Animal { }
+    class Dog extends Animal { }
+    public class Main {
+        public static void main(String[] args) {
+            Animal animal = new Dog();  -----> Dog is an instance of Animal
+            System.out.println(animal instanceof Dog);    -----> true
+            System.out.println(animal instanceof Animal); -----> true
+            System.out.println(animal instanceof Cat);    -----> false (Cat class doesn't exist)
+        }
+    }
+* Important Points -
+	Null Check -
+        If the object is null, instanceof always returns false.
+        Ex -
+            Dog dog = null;
+            System.out.println(dog instanceof Dog); -----> false
+    In Inheritance -
+        If a class is a parent class or an interface, instanceof will return true for instances of the subclass or a class implementing the interface.
+	For Interfaces -
+        instanceof can also check if an object implements an interface.
+        Ex -
+            interface Jumpable { }
+            class Animal implements Jumpable { }
+            public class Main {
+                public static void main(String[] args) {
+                    Animal animal = new Animal();
+                    System.out.println(animal instanceof Jumpable); -----> true
+                }
+            }
+* Usage -
+	Type Checking -
+        To check if an object is of a specific type before casting.
+	Safe Casting -
+        It is often used to avoid ClassCastException by ensuring that the object can be cast to a certain class.
+        Ex -
+            if (animal instanceof Dog) {
+                Dog dog = (Dog) animal;  -----> Safe to cast
+                dog.bark();
+            }
+* Conclusion -
+    The instanceof operator is a powerful tool for type checking in Java, ensuring that an object can safely be cast or used in contexts where a certain type is required.
+
+7. What is getClass method ?
+Answer :
+* The getClass() method in Java is used to get the runtime class of an object.
+* This method is defined in the Object class, which means every object in Java can use it.
+* The runtime class refers to the actual class of the object, which may differ from the reference type, especially in cases of inheritance or polymorphism.
+* Syntax -
+    object.getClass()
+        object - The object whose runtime class you want to know.
+* Return Value -
+	It returns an object of Class<?>, which represents the runtime class of the object.
+How it works -
+	getClass() tells you exactly which class an object belongs to at runtime, even if the reference type is different due to inheritance or polymorphism.
+    Ex -
+        class Animal { }
+        class Dog extends Animal { }
+        public class Main {
+            public static void main(String[] args) {
+                Animal animal = new Dog();  -----> Reference type is Animal, but object is Dog
+                System.out.println(animal.getClass());  -----> Output: class Dog
+            }
+        }
+* Important Points -
+	Polymorphism -
+        In cases where an object of a subclass is referenced by a superclass, getClass() will return the class of the actual object, not the reference type.
+        Ex -
+            Animal animal = new Dog();
+            System.out.println(animal.getClass());  -----> Returns Dog, not Animal
+    No Parameters -
+        The getClass() method does not take any arguments and can be called on any object.
+	Class<?> Representation -
+        The class returned is of type Class<?>, which provides access to class metadata (eg - methods, fields, etc.).
+	Not for Primitive Types -
+        You cannot call getClass() on primitive types (like int, char, etc.) since they are not objects.
+* Usage -
+	Reflection -
+        getClass() is widely used in Java Reflection to inspect and manipulate classes, methods, fields, etc., at runtime.
+	Object Type Checking -
+        It can be used to check the runtime type of an object.
+* Example with Class Information -
+    You can use getClass() to retrieve more detailed class information such as name, methods, and fields.
+    public class Main {
+        public static void main(String[] args) {
+            Dog dog = new Dog();
+            Class<?> dogClass = dog.getClass();
+            System.out.println("Class Name: " + dogClass.getName());
+        }
+    }
+    Output -
+        Class Name: Dog
+* Conclusion -
+    The getClass() method provides a way to determine the actual runtime class of an object, making it useful for dynamic type inspection and reflection in Java.
+
 -----Access Modifiers-----
 
 1. What is Access Modifiers in Java ?
@@ -310,6 +608,10 @@ Friend (C++ only) :
         friend class FriendClass;
 Protected Friend (C++ only) :
     Accessible by derived classes and classes in the same assembly.
+
+4. What are some important points for Protected Modifier ?
+Answer :
+
 
 -----Constructors-----
 
@@ -1551,6 +1853,15 @@ Answer :
 	Database Connection - Single database connection ko multiple modules ke liye reuse karna ho.
 	Logging - Global logging class, jo poore application ke events log kar sake.
 
+11. What are in-built Packages ?
+12. What are these Packages For ?
+lang
+io
+util
+applet
+awt
+net
+
 -----Important Keywords-----
 
 1. What are some Important Keywords in Java ?
@@ -1904,6 +2215,140 @@ Answer :
             A House has a Room. A room cannot exist without a house.
 * Difference -
     In aggregation, objects are independent, but in composition, one object cannot exist without the other.
+
+27. What is Multiple Inheritance Problem ?
+Answer :
+* Multiple Inheritance ka matlab hota hai ek class ka do ya zyada classes ko inherit karna.
+* Lekin Java mein Multiple Inheritance directly support nahi hoti classes ke through, kyunki isse Diamond Problem hota hai.
+* Ye ek complex situation create karta hai, jisme confusion hoti hai ki kis parent class ka method ya property inherit ki jaye.
+* Diamond Problem -
+    Diamond Problem ka concept tab aata hai jab ek class do ya zyada parent classes se inherit hoti hai, aur dono parent classes ke paas ek same method ya property hoti hai.
+    Iss situation mein child class ko confusion hoti hai ki kaunsa method use kare.
+    Ex  -
+        class A {
+            void show() {
+                System.out.println("Class A ka method");
+            }
+        }
+        class B extends A {
+            void show() {
+                System.out.println("Class B ka method");
+            }
+        }
+        class C extends A {
+            void show() {
+                System.out.println("Class C ka method");
+            }
+        }
+        class D extends B, C {
+            -----> Confusion yahan aayegi ki "show" method B se call kare ya C se.
+        }
+        Yahan pe agar D class ko B aur C dono se inherit karna ho, to Java ko samajh nahi aayega ki D class ka show() method B class ka execute kare ya C class ka.
+* Java Solution to Multiple Inheritance -
+    Java ne is Diamond Problem ko avoid karne ke liye ye rule banaya ki -
+        Java does not support multiple inheritance through classes.
+        Multiple inheritance ke jagah, Java mein interfaces ka use hota hai.
+* Interfaces ke through hum multiple inheritance achieve kar sakte hain, kyunki interfaces ke methods ke koi implementation nahi hoti, sirf declaration hota hai.
+* Iss wajah se conflict ka issue nahi hota.
+* Ex -
+    interface A {
+        void show();
+    }
+    interface B {
+        void display();
+    }
+    class C implements A, B {
+        public void show() {
+            System.out.println("A interface ka show method");
+        }
+        public void display() {
+            System.out.println("B interface ka display method");
+        }
+    }
+    Yahan pe C class ne A aur B interfaces ko implement kiya, aur dono methods ka apna implementation provide kiya, isiliye koi conflict nahi hua.
+* Summary -
+	Multiple Inheritance Problem -
+        Jab ek child class do parent classes se same method inherit karti hai, to confusion hota hai kaunsa method call karna hai.
+	Diamond Problem -
+        Isme ek diamond-shaped hierarchy banta hai jo method resolution ko unclear bana deta hai.
+	Java Solution -
+        Java classes ke through multiple inheritance support nahi karta to avoid the Diamond Problem.
+        Java mein multiple inheritance achieve karne ke liye interfaces ka use hota hai.
+* Conclusion -
+    Multiple inheritance directly classes ke through avoid karna isliye important hai kyunki ye confusion aur ambiguity create karta hai.
+    Java isko handle karta hai by restricting multiple inheritance with classes and allowing it with interfaces, jo ek clear solution provide karta hai.
+
+28. How to achieve Multiple Inheritance using Abstract Class ?
+Answer :
+* Java mein directly multiple inheritance ko classes ke through support nahi kiya jata, lekin hum abstract classes ka istemal karke multiple inheritance ke concept ko achieve kar sakte hain.
+* Abstract classes allow karti hain ki aap ek class se inheritance le kar multiple abstract classes ke methods ko implement kar sakte hain.
+* Chalo is process ko step by step samajhte hain.
+    Abstract Class -
+        Abstract class ek class hoti hai jo ki abstract keyword se define ki jaati hai.
+        Ye class kuch methods ko declare kar sakti hai (abstract methods) jinka implementation subclasses ko dena padta hai.
+    Ex -
+        abstract class Animal {
+            abstract void sound(); -----> Abstract method
+        }
+        abstract class Pet {
+            abstract void play(); -----> Abstract method
+        }
+    Inheriting from Multiple Abstract Classes -
+        Ab agar hume ek concrete class banana hai jo dono abstract classes Animal aur Pet se inherit kare, to hum unke abstract methods ko implement kar sakte hain.
+        Ex -
+            class Dog extends Animal {
+                void sound() {
+                    System.out.println("Dog barks");
+                }
+            }
+            class DogPet extends Pet {
+                void play() {
+                    System.out.println("Dog loves to play fetch");
+                }
+            }
+            class DogActions extends DogPet {
+                @Override
+                void sound() {
+                    System.out.println("Dog barks");
+                }
+                @Override
+                void play() {
+                    System.out.println("Dog loves to play fetch");
+                }
+            }
+    Final Class -
+        Agar aapko ek final class create karni hai jo animal ki sound aur pet ki play dono functionalities ko rakhe, to aap final class mein dono abstract classes se methods ko implement kar sakte hain.
+        Ex -
+            class Dog extends Animal {
+                void sound() {
+                    System.out.println("Dog barks");
+                }
+            }
+            class PetDog extends Pet {
+                void play() {
+                    System.out.println("Pet dog plays with the ball");
+                }
+            }
+            class DogActions extends Dog {
+                void performActions() {
+                    sound(); // From Animal class
+                    PetDog petDog = new PetDog();
+                    petDog.play(); -----> From Pet class
+                }
+            }
+    Main Method -
+        Ab aap DogActions class ka instance bana kar methods ko call kar sakte hain.
+        Ex -
+            public class Main {
+                public static void main(String[] args) {
+                    DogActions dogActions = new DogActions();
+                    dogActions.performActions();
+                }
+            }
+* Summary -
+	Abstract Classes - Inhe aap multiple abstract methods ko define karne ke liye use karte hain.
+    Concrete Classes - Aap abstract classes se inherit kar ke ek concrete class create kar sakte hain jo methods ko implement kare.
+	Achieving Multiple Inheritance - Abstract classes ke through aap multiple functionalities ko ek class mein combine kar sakte hain.
 
 -----Polymorphism-----
 
@@ -2343,6 +2788,640 @@ Answer :
 6. What are the differences between interfaces and abstract class ?
 Answer :
 * Refer to Image.
+
+7. What are Abstract Classes ?
+Answer :
+* Abstract class ek special type ki class hoti hai jo abstract keyword se define ki jaati hai.
+* Iska main purpose hai common behavior ko define karna bina complete implementation diye.
+* Characteristics -
+	Abstract Methods -
+        Abstract class mein aap abstract methods declare kar sakte hain.
+        Ye methods sirf signature hote hain aur inka koi implementation nahi hota.
+        Inhe subclasses mein implement karna padta hai.
+	Concrete Methods -
+        Abstract class mein aap concrete methods (fully implemented methods) bhi define kar sakte hain.
+	Cannot be Instantiated -
+        Aap directly abstract class ka object nahi bana sakte.
+        Ye sirf inheritance ke liye use hoti hai.
+* Syntax -
+    abstract class ClassName {
+    abstract void abstractMethod(); -----> Abstract method
+    void concreteMethod() { -----> Concrete method
+        System.out.println("This is a concrete method.");
+    }
+}
+* Purpose -
+	Code Reusability -
+        Abstract classes common functionality ko share karne mein madad karti hain, jo ki subclasses mein reuse hoti hai.
+	Defining Template -
+        Ye ek template provide karti hain jisse subclasses ko follow karna hota hai.
+* Ex -
+    -----> Abstract class
+    abstract class Animal {
+        abstract void sound(); -----> Abstract method
+        void eat() { -----> Concrete method
+            System.out.println("This animal eats food.");
+        }
+    }
+    -----> Subclass
+    class Dog extends Animal {
+        @Override
+        void sound() { -----> Implementation of abstract method
+            System.out.println("Dog barks");
+        }
+    }
+    -----> Main class
+    public class Main {
+        public static void main(String[] args) {
+            Dog dog = new Dog();
+            dog.sound(); -----> Output: Dog barks
+            dog.eat();   -----> Output: This animal eats food.
+        }
+    }
+* When to Use Abstract Classes -
+	Jab aapko kuch methods ko subclasses mein enforce karna ho.
+	Jab aapko common behavior define karna ho jo subclasses share kar sakti hain.
+* Conclusion -
+    Abstract classes aapko ek structure provide karti hain jisse aap specific behaviors ko enforce kar sakte hain aur code reusability ko enhance karte hain.
+    Ye OOP ke principles jaise encapsulation aur inheritance ko implement karne mein madad karti hain.
+
+8. What are Abstract Constructors ?
+Answer :
+* Abstract Constructors in Java -
+	Java mein direct abstract constructors ka concept nahi hota, because constructors ka kaam object initialize karna hota hai, aur abstract classes ka object directly instantiate nahi kiya ja sakta.
+    Abstract constructors ka concept isliye exist nahi karta kyunki abstract classes ka object nahi banta, aur constructor ka purpose object creation aur initialization hota hai.
+* Constructor in Abstract Classes -
+	Abstract classes mein normal constructors ho sakte hain, lekin yeh subclass objects ko initialize karne ke liye use hote hain.
+	Jab abstract class ko inherit karne wali koi class object banati hai, toh pehle abstract class ka constructor super() ke through call hota hai.
+* Ex -
+    -----> Abstract class with a constructor
+    abstract class Animal {
+        String name;
+        -----> Constructor in abstract class
+        Animal(String name) {
+            this.name = name;
+            System.out.println("Animal constructor called. Name: " + name);
+        }
+        abstract void sound();
+    }
+    -----> Subclass of Animal
+    class Dog extends Animal {
+        -----> Subclass constructor
+        Dog(String name) {
+            super(name); -----> Call to abstract class constructor
+            System.out.println("Dog constructor called.");
+        }
+        @Override
+        void sound() {
+            System.out.println(name + " barks");
+        }
+    }
+    public class Main {
+        public static void main(String[] args) {
+            Dog dog = new Dog("Buddy"); -----> Calls abstract class constructor first
+            dog.sound(); // Output: Buddy barks
+        }
+    }
+    Animal abstract class hai jisme ek constructor hai.
+	Dog class jo Animal ko inherit karti hai, uske constructor mein super(name) call karta hai, jo abstract class ka constructor execute karta hai.
+	Abstract class ka constructor object ke initialization ke liye call hota hai jab subclass ka object banta hai.
+* Summary -
+	Java mein abstract constructors nahi hote, lekin abstract classes mein constructors ho sakte hain jo subclasses ke objects ko initialize karte hain.
+	Yeh process inheritance aur constructor chaining ke concept se connected hai, jisme abstract class ka constructor pehle call hota hai aur uske baad subclass ka constructor.
+
+9. What is Object of an Abstract Class ?
+Answer :
+* Abstract Class ka Object Directly Nahi Ban Sakta -
+	Java mein abstract class ek aisi class hoti hai jo incomplete hoti hai, kyunki usme ek ya zyada abstract methods (methods without body) hote hain.
+	Abstract class ka object directly instantiate nahi kiya ja sakta kyunki abstract class incomplete hoti hai, aur koi bhi object complete hona chahiye taaki uske saare methods accessible ho sakein.
+    Ex -
+        abstract class Animal {
+            abstract void sound(); -----> Abstract method
+        }
+        public class Main {
+            public static void main(String[] args) {
+                -----> Error: Cannot instantiate the type Animal
+                Animal animal = new Animal();
+            }
+        }
+        Yaha pe, agar hum directly Animal class ka object banane ki koshish karenge toh compiler error dega, kyunki Animal ek abstract class hai.
+* Subclass ka Object se Abstract Class ka Reference -
+	Abstract class ka object directly nahi ban sakta, lekin uska reference type banaya ja sakta hai.
+	Iska matlab hai ki hum abstract class ka reference use kar sakte hain aur us reference ko subclass ke object se assign kar sakte hain.
+    Ex -
+        abstract class Animal {
+            abstract void sound();
+        }
+        class Dog extends Animal {
+            void sound() {
+                System.out.println("Dog barks");
+            }
+        }
+        public class Main {
+            public static void main(String[] args) {
+                Animal animal = new Dog(); -----> Abstract class reference to Dog object
+                animal.sound(); -----> Output: Dog barks
+            }
+        }
+        Yaha humne Animal (abstract class) ka reference banaya hai, aur us reference ko Dog (subclass) ka object assign kiya hai.
+        Polymorphism ke through, animal.sound() call karta hai Dog class ka method.
+* Abstract Class ka Object Kyu Nahi Banta -
+	Abstract class ka object directly banane ka koi fayda nahi hota, kyunki uske kuch methods incomplete hote hain.
+    Agar hum object banate toh unhe execute nahi kar pate.
+	Abstract classes ka purpose sirf blueprint provide karna hai jo subclasses implement karenge.
+* Use of Abstract Class Reference -
+	Polymorphism -
+        Abstract class ka reference use karke hum different subclasses ke objects ko refer kar sakte hain aur runtime pe decide kar sakte hain ki kaunsa method call hoga.
+        Ex -
+            Animal animal;
+            animal = new Dog();
+            animal.sound(); -----> Dog barks
+            animal = new Cat();
+            animal.sound(); -----> Cat meows
+            Yaha hum same abstract class ka reference use karke different subclasses ko handle kar rahe hain.
+* Summary -
+	Abstract class ka object directly nahi ban sakta kyunki woh incomplete hoti hai.
+	Abstract class ka reference bana kar usko subclass ke object se assign kiya ja sakta hai.
+	Iska major use polymorphism aur method overriding ko achieve karna hota hai.
+
+10. What are Abstract Static Methods ?
+Answer :
+* Abstract static methods Java mein exist nahi karte.
+* Let’s break this down to understand kyun Java mein “abstract static methods” allowed nahi hote.
+* Abstract Methods -
+	Abstract method ek aisa method hota hai jiska koi body nahi hota.
+    Sirf method declaration hoti hai, implementation nahi.
+	Abstract methods ko subclass mein override karna hota hai, because they provide the basic structure (or contract) of the method, and subclass ko define karna hota hai ki woh method kya karega.
+    Ex -
+        abstract class Animal {
+            abstract void sound(); ----> Abstract method
+        }
+        Yaha pe sound() method ka koi body nahi hai, isliye subclass ko is method ko override karke implement karna padega.
+* Static Methods -
+	Static methods class ke object se associated nahi hote, balki class itself se associated hote hain.
+	Inhe object banaye bina access kiya ja sakta hai, aur yeh class level methods hote hain.
+    Ex -
+        class Animal {
+            static void info() {
+                System.out.println("This is a static method.");
+            }
+        }
+        Yaha pe info() method ko hum class name se directly call kar sakte hain -
+            Animal.info();
+* Why Abstract Static Methods are Not Allowed -
+	Abstract methods ko override karna padta hai, aur unki implementation subclass mein di jati hai.
+	Static methods class ke object se bind nahi hote, unhe subclass ke objects ke through override nahi kiya ja sakta.
+	Java mein static methods inherit hote hain, override nahi.
+    Iska matlab yeh hota hai ki agar static method ko abstract declare kiya jaye, toh uska koi fayda nahi kyunki subclass ko us method ko override karne ka requirement nahi rahega.
+* Logical Conflict -
+	Abstract method keh raha hai “subclass implement karega.”
+	Static method keh raha hai “method subclass se nahi, class se linked hai, aur inheritance ke through override nahi hoga.”
+    Dono concepts contradict karte hain. Isi wajah se Java mein abstract static method ko allow nahi kiya gaya.
+    Ex -
+        abstract class Animal {
+            abstract static void sound(); -----> This is not allowed in Java
+        }
+        Error: Static method cannot be abstract in Java.
+* Conclusion -
+	Abstract methods subclass mein implement kiye jate hain.
+	Static methods class se associated hote hain aur unko override nahi kiya ja sakta.
+	Is wajah se, abstract static methods Java mein possible nahi hain, kyunki yeh dono concepts apas mein logically contradict karte hain.
+
+11. What is final Keyword in Abstract Class ?
+Answer :
+* Final keyword ka matlab hota hai something that cannot be changed or extended.
+* Jab hum isko abstract class ke saath use karte hain, toh iska behavior thoda specific hota hai.
+* Let’s go step-by-step to understand final keyword ka abstract class me kya role hota hai.
+* Final Keyword Recap -
+    Final keyword ko hum 3 jagah use kar sakte hain -
+        Final variable - Value ek baar assign karne ke baad change nahi kar sakte.
+        Final method - Is method ko override nahi kar sakte.
+        Final class - Is class ko extend nahi kar sakte (inheritance nahi ho sakti).
+* Final Keyword with Abstract Class -
+    Aap abstract class ke methods ya variables ke saath final keyword use kar sakte ho, lekin kuch limitations aur specific use-cases hote hain.
+    Final Method in Abstract Class -
+        Agar aap ek abstract class ke andar ek final method banate ho, iska matlab yeh hota hai ki subclasses us method ko override nahi kar sakte.
+        Ex -
+            abstract class Animal {
+                final void eat() {
+                    System.out.println("This animal eats.");
+                }
+                abstract void sound();
+            }
+            Yaha, eat() method ko subclasses override nahi kar paayengi, lekin wo use kar sakti hain.
+            Ex -
+                class Dog extends Animal {
+                    @Override
+                    void sound() {
+                        System.out.println("Dog barks.");
+                    }
+                    -----> Cannot override final method eat()
+                }
+                Final method ensure karta hai ki method ka implementation fixed rahe and koi subclass usko modify na kar sake.
+    Final Class and Abstract Class -
+        Aap abstract class ko final nahi bana sakte.
+        Abstract class ka basic purpose hi inheritance ke liye base provide karna hota hai.
+        Agar aap abstract class ko final banate, toh inheritance ka concept hi fail ho jaata, kyunki final class ko inherit nahi kar sakte.
+        Ex -
+            -----> Invalid code
+            final abstract class Animal {
+                abstract void sound();
+            }
+            Isliye, abstract class kabhi bhi final nahi ho sakti, kyunki uska main purpose hi inheritance ke liye hai.
+    Final Variables in Abstract Class -
+        Aap abstract class me final variables define kar sakte hain.
+        Final variables ka behavior same hota hai jaise kisi bhi normal class me -
+            Once assigned, final variables ki value change nahi ki ja sakti.
+            Ex -
+                abstract class Animal {
+                    final String type = "Mammal";  -----> Final variable
+                    abstract void sound();
+                }
+                Subclasses is type variable ko use kar sakti hain, but wo uski value change nahi kar sakti.
+    Final and Abstract Methods Together -
+        Ek aur important cheez - Final aur abstract method ko ek saath use nahi kar sakte.
+            Abstract methods ka basic purpose hi yeh hota hai ki wo subclass me implement ho, lekin final method ko override nahi kar sakte.
+            Isliye abstract method kabhi final nahi ho sakta.
+            Ex -
+                -----> Invalid code
+                abstract class Animal {
+                    final abstract void sound();  -----> Error, abstract methods can't be final
+                }
+* Key Points -
+	Final methods in an abstract class cannot be overridden by subclasses.
+	Abstract classes cannot be final.
+	Final variables in an abstract class work just like in any other class (can’t be reassigned).
+	Abstract methods cannot be final, kyunki abstract methods ko subclass me implement karna hota hai.
+* Conclusion -
+	Final methods in an abstract class ka use aap tab karte ho jab aapko kisi method ka implementation fix rakhna hota hai aur subclasses ko allow nahi karna chahte ho us method ko override karne ke liye.
+    Final class kabhi abstract nahi ho sakti, aur final + abstract method ka combination invalid hota hai.
+
+12. What are Interfaces ?
+Answer :
+* Interface ek aisi blueprint hoti hai jo methods ke signatures define karti hai, lekin unka implementation nahi deti.
+* Interfaces ka use karne se aap ek contract define karte ho, jisme ye specify karte ho ki koi class kya kar sakti hai, lekin kaise karna hai, ye woh define nahi karte.
+* Key Features of Interfaces -
+	Method Signatures -
+        Interface me aap sirf method signatures define karte ho.
+        Methods ke body nahi hoti.
+	Multiple Inheritance -
+        Java me class ko multiple inheritance ka support nahi hota, lekin interface ke through aap multiple inheritance achieve kar sakte ho.
+	Constants -
+        Interfaces me aap constant variables define kar sakte ho, jo by default public, static, aur final hote hain.
+	Default and Static Methods -
+        Java 8 se aap interfaces me default aur static methods define kar sakte ho.
+* Syntax -
+    interface Animal {
+        -----> Method signature (no body)
+        void sound();
+        -----> Constant variable
+        int age = 5; -----> By default public, static, final
+        -----> Default method
+        default void eat() {
+            System.out.println("This animal eats.");
+        }
+    }
+* Implementing Interfaces -
+    Jab koi class ek interface ko implement karti hai, toh usko interface ke saare methods ko override karna padta hai.
+    Ex -
+        class Dog implements Animal {
+            @Override
+            public void sound() {
+                System.out.println("Dog barks.");
+            }
+        }
+* Using Interfaces -
+    Aap interface ka use karne ke baad objects create kar sakte ho aur methods call kar sakte ho.
+    Ex -
+        public class Main {
+        public static void main(String[] args) {
+            Animal dog = new Dog();
+            dog.sound(); -----> Output: Dog barks.
+            dog.eat();   -----> Output: This animal eats.
+        }
+    }
+* Why Use Interfaces -
+	Abstraction -
+        Interfaces se aap implementation ko hide kar sakte ho aur sirf functionality dikhate ho.
+	Multiple Implementations -
+        Ek interface ko multiple classes implement kar sakti hain, jo ki flexibility provide karta hai.
+	Loose Coupling -
+        Interfaces se aap classes ke beech loose coupling achieve karte ho, kyunki classes ko sirf interface se pata hota hai, na ki implementation se.
+* Types of Interfaces -
+	Marker Interface -
+        Ye aise interfaces hote hain jisme koi method nahi hoti.
+        Sirf class ko mark karne ke liye use hote hain.
+        Ex - Serializable.
+	Functional Interface -
+        Ye aise interfaces hain jisme sirf ek abstract method hota hai.
+        Ye lambda expressions ke liye use hote hain.
+        Ex - Runnable.
+	Tag Interface -
+        Ye interfaces koi specific functionality nahi dete, lekin ek marker ki tarah kaam karte hain.
+* Conclusion -
+    Interfaces Java ka ek powerful feature hain jo aapko abstraction aur multiple inheritance achieve karne me help karte hain.
+    Isse aap software design ko modular aur maintainable bana sakte ho.
+    Interfaces ka use karne se aap easily different implementations ko interchange kar sakte hain bina kisi code change kiye.
+
+13. What is variable of Interface type ?
+Answer :
+* Interface Type Variable ek aisa variable hai jiska type ek interface hota hai.
+* Iska matlab hai ki aap us variable ko kisi class ka reference assign kar sakte hain jo us interface ko implement karti hai.
+* Ye concept polymorphism ko achieve karne me madad karta hai.
+* Interface type variable ko declare karte waqt aapko interface ka naam use karna hota hai.
+* Is variable ko aap us interface ko implement karne wali kisi bhi class ka object assign kar sakte hain.
+* Ex -
+    -----> Interface definition
+    interface Animal {
+        void sound();
+    }
+    -----> Class Dog implements Animal
+    class Dog implements Animal {
+        @Override
+        public void sound() {
+            System.out.println("Dog barks.");
+        }
+    }
+    -----> Class Cat implements Animal
+    class Cat implements Animal {
+        @Override
+        public void sound() {
+            System.out.println("Cat meows.");
+        }
+    }
+    Maan lo aapke paas ek interface hai Animal aur do classes hain Dog aur Cat jo Animal interface ko implement karti hain.
+* Ex of Using Interface Type Variable -
+    public class Main {
+        public static void main(String[] args) {
+            -----> Interface type variable
+            Animal animal;
+            -----> Assigning Dog object to animal variable
+            animal = new Dog();
+            animal.sound(); -----> Output: Dog barks.
+            -----> Assigning Cat object to animal variable
+            animal = new Cat();
+            animal.sound(); -----> Output: Cat meows.
+        }
+    }
+* Key Points -
+	Flexibility -
+        Interface type variable se aapko flexibility milti hai ki aap different implementations ko ek variable se reference kar sakte hain.
+	Polymorphism -
+        Ye concept polymorphism ko support karta hai, jisse runtime par different objects ko handle kiya ja sakta hai.
+	Decoupling -
+        Interface type variables se code ko loosely coupled banaya ja sakta hai, kyunki aap implementation ko interface se alag rakhte hain.
+* Conclusion -
+    Interface type variable ka use karne se aap apne code ko modular, flexible aur maintainable bana sakte hain.
+    Ye object-oriented programming ke principles ko effectively implement karne me madad karta hai.
+
+14. What is Seperate Classes in Same Interface ?
+Answer :
+* Separate Classes in the Same Interface ka matlab hai ki aap ek hi interface ko multiple alag-alag classes implement kar sakte hain.
+* Iska fayda yeh hai ki aapko interface ke through different classes ki implementations ko define karne ki flexibility milti hai, jabki un classes ka behavior common interface ke through define hota hai.
+* Ek interface define karta hai ek contract ya blueprint jo classes ko follow karna hota hai.
+* Jab multiple classes is interface ko implement karti hain, toh yeh separate classes ke beech mein common functionality ko define karne ka ek tarika hota hai.
+* Ex -
+    -----> Interface definition
+    interface Vehicle {
+        void start();
+        void stop();
+    }
+    -----> Class Car implements Vehicle
+    class Car implements Vehicle {
+        @Override
+        public void start() {
+            System.out.println("Car is starting.");
+        }
+        @Override
+        public void stop() {
+            System.out.println("Car is stopping.");
+        }
+    }
+    -----> Class Bike implements Vehicle
+    class Bike implements Vehicle {
+        @Override
+        public void start() {
+            System.out.println("Bike is starting.");
+        }
+        @Override
+        public void stop() {
+            System.out.println("Bike is stopping.");
+        }
+    }
+    Maan lo, aapke paas ek interface Vehicle hai aur do classes Car aur Bike hain jo is interface ko implement kar rahi hain.
+* Ex of Using Separate Classes in the Same Interface -
+    public class Main {
+        public static void main(String[] args) {
+            -----> Interface type variable
+            Vehicle myVehicle;
+            -----> Assigning Car object to myVehicle
+            myVehicle = new Car();
+            myVehicle.start(); -----> Output: Car is starting.
+            myVehicle.stop();  -----> Output: Car is stopping.
+            -----> Assigning Bike object to myVehicle
+            myVehicle = new Bike();
+            myVehicle.start(); -----> Output: Bike is starting.
+            myVehicle.stop();  -----> Output: Bike is stopping.
+        }
+    }
+* Key Points -
+	Modularity -
+        Separate classes ki wajah se aap apne code ko modular bana sakte hain, jahan aap alag-alag classes ki implementations ko manage kar sakte hain.
+    Polymorphism -
+        Aap polymorphism ka istemal kar sakte hain, jisse runtime par alag-alag class objects ko handle karna aasaan hota hai.
+	Reusability -
+        Ek hi interface ko implement karne wale classes ko reuse kiya ja sakta hai, jo code ki maintainability ko badhata hai.
+* Conclusion -
+    Separate classes in the same interface aapko ek structured aur organized approach deta hai object-oriented programming me, jisse aap alag-alag implementations ko efficiently manage kar sakte hain, jabki unka behavior ek common interface ke through define hota hai.
+    Ye concept aapko flexibility aur scalability provide karta hai.
+
+15. What is Extending Interfaces ?
+Answer :
+* Extending Interfaces ka matlab hai ki aap ek interface se doosre interface ko extend karte hain, jisse aap naye methods ko add kar sakte hain ya phir pehle se defined methods ko inherit kar sakte hain.
+* Is approach se aap interfaces ko organize aur modular bana sakte hain, jaise classes ko inheritance ke zariye.
+* Agar ek interface A hai aur aap chahte hain ki interface B A ko extend kare, toh aap B me naye methods add kar sakte hain jo A ke methods ke sath combine hote hain.
+* Syntax -
+    interface A {
+        void method1();
+    }
+    interface B extends A {
+        void method2();
+    }
+* Ex -
+    -----> Base interface
+    interface Animal {
+        void eat();
+    }
+    -----> Extended interface
+    interface Dog extends Animal {
+        void bark();
+    }
+    -----> Implementing the Dog interface
+    class GermanShepherd implements Dog {
+        @Override
+        public void eat() {
+            System.out.println("German Shepherd is eating.");
+        }
+        @Override
+        public void bark() {
+            System.out.println("German Shepherd barks.");
+        }
+    }
+* Ex of Using Extended Interfaces -
+    public class Main {
+        public static void main(String[] args) {
+            Dog myDog = new GermanShepherd();
+            myDog.eat();  -----> Output: German Shepherd is eating.
+            myDog.bark(); -----> Output: German Shepherd barks.
+        }
+    }
+* Key Points -
+    Reusability -
+        Aap existing interface ko extend karke naye functionality add kar sakte hain, jo code reuse ko badhata hai.
+	Polymorphism -
+        Extended interfaces polymorphism ko support karte hain, jisse aap alag-alag objects ko ek interface type se handle kar sakte hain.
+	Modularity -
+        Interfaces ko extend karke aap code ko modular bana sakte hain, jahan aapka code zyada maintainable hota hai.
+* Conclusion -
+    Extending interfaces aapko flexibility aur scalability provide karta hai aapke code me, jisse aap easily naye functionalities add kar sakte hain bina existing code ko modify kiye.
+    Ye concept aapko ek structured approach deta hai object-oriented programming me, aur aapko alag-alag behaviors ko effectively manage karne ki capability deta hai.
+
+16. What are Annotations ?
+Answer :
+* Annotations Java mein ek special type ki syntactic metadata hai, jo aapko code ke upar additional information dene ki suvidha deti hai.
+* Ye annotations aapke code ko descriptive banati hain aur compiler ko kuch additional instructions ya behavior provide karti hain.
+* Annotations Java ke features hain jo classes, methods, variables, ya packages ke upar lagaye ja sakte hain.
+* Ye annotation ke form mein hoti hain aur ye aapke program ko samajhne ya compile karne mein help karti hain.
+* Syntax -
+    Annotations ko @ symbol ke saath define kiya jata hai. Iska syntax kuch is tarah hota hai.
+    @AnnotationName
+    public void myMethod() {
+        -----> method body
+    }
+* Types of Annotations -
+	Marker Annotations -
+        Ye bina kisi member ke sirf presence dikhate hain.
+        Example: @Override
+	Single-value Annotations -
+        Ye ek single value accept karte hain.
+        Ex -
+            @SuppressWarnings("unchecked")
+    Full Annotations -
+        Ye multiple members ke sath hoti hain.
+        Ex -
+            @MyAnnotation(name="Example", value=5)
+* Built-in Annotations -
+    Java mein kuch built-in annotations hain -
+        •	@Override - Ye indicate karta hai ki aap kisi base class ke method ko override kar rahe hain.
+        •	@Deprecated - Ye indicate karta hai ki kisi method ya class ka use ab nahi kiya jana chahiye.
+        •	@SuppressWarnings - Ye compiler ko batata hai ki kuch specific warnings ko ignore kiya jaye.
+* Custom Annotations -
+    Aap apne khud ke annotations bhi bana sakte hain.
+    Ex -
+        import java.lang.annotation.ElementType;
+        import java.lang.annotation.Retention;
+        import java.lang.annotation.RetentionPolicy;
+        import java.lang.annotation.Target;
+        // Custom annotation
+        @Retention(RetentionPolicy.RUNTIME) -----> Runtime pe available
+        @Target(ElementType.METHOD) -----> Ye method par use hoti hai
+        public @interface MyCustomAnnotation {
+            String value() default "defaultValue"; // default value
+        }
+* Ex of Using Annotations -
+    Annotations ko methods ya classes par apply karna.
+    public class Example {
+        @MyCustomAnnotation(value = "Hello")
+        public void annotatedMethod() {
+            -----> method body
+        }
+    }
+* Reflection with Annotations -
+    Aap reflection ka use karke annotations ko runtime pe access kar sakte hain.
+    Ex -
+        Method[] methods = Example.class.getDeclaredMethods();
+        for (Method method : methods) {
+            if (method.isAnnotationPresent(MyCustomAnnotation.class)) {
+                MyCustomAnnotation annotation = method.getAnnotation(MyCustomAnnotation.class);
+                System.out.println("Method: " + method.getName() + " Value: " + annotation.value());
+            }
+        }
+* Conclusion -
+    Annotations aapke code ko samajhne mein, document karne mein, aur specific behaviors ko define karne mein madadgar hoti hain.
+    Ye ek powerful feature hai Java ka jo aapko code ko clean aur maintainable rakhne ki capability deta hai.
+    Custom annotations banakar aap apne project ke specific needs ke according functionalities add kar sakte hain.
+
+17. What is the important point regarding Static Interface Methods ?
+Answer :
+
+
+18. What are Nested Interfaces ?
+Answer :
+* Nested Interfaces Java mein wo interfaces hain jo kisi doosre interface ya class ke andar define kiye jaate hain.
+* Ye interfaces encapsulation ko promote karte hain aur code ko organized aur modular banate hain.
+* Nested interfaces ko aap kisi outer class ya outer interface ke andar define karte hain.
+* Inka use aapko related functionalities ko ek saath rakhne ki suvidha deta hai.
+* Ex -
+    public class OuterClass {
+        interface NestedInterface {
+            void nestedMethod();
+        }
+    }
+* Types of Nested Interfaces -
+	Static Nested Interfaces -
+        Ye interface kisi outer class ke andar define hota hai, par ye static hota hai.
+        Iska matlab hai ki aap isko bina outer class ka instance banaye access kar sakte hain.
+        Ex -
+            public class OuterClass {
+                static interface NestedStaticInterface {
+                    void nestedStaticMethod();
+                }
+            }
+    Non-Static Nested Interfaces (Inner Interfaces) -
+        Ye interface outer class ka instance ko reference karte hain.
+        Iska matlab hai ki aapko outer class ka instance create karna padega isko access karne ke liye.
+        Ex -
+            public class OuterClass {
+                interface NestedInnerInterface {
+                    void nestedInnerMethod();
+                }
+            }
+* Accessing Nested Interfaces -
+    Aap nested interface ko access karne ke liye is tarah se kar sakte hain -
+        Ex of Static Nested Interface -
+            public class Test {
+                public static void main(String[] args) {
+                    OuterClass.NestedStaticInterface staticInterface = new OuterClass.NestedStaticInterface() {
+                        public void nestedStaticMethod() {
+                            System.out.println("Static Nested Interface Method");
+                        }
+                    };
+                    staticInterface.nestedStaticMethod();
+                }
+            }
+        Ex of Non-Static Nested Interface -
+            public class Test {
+                public static void main(String[] args) {
+                    OuterClass outer = new OuterClass();
+                    OuterClass.NestedInnerInterface innerInterface = new OuterClass.NestedInnerInterface() {
+                        public void nestedInnerMethod() {
+                            System.out.println("Non-Static Nested Interface Method");
+                        }
+                    };
+                    innerInterface.nestedInnerMethod();
+                }
+            }
+* Use Cases -
+	Encapsulation -
+        Nested interfaces ko use karke aap related functionalities ko encapsulate kar sakte hain.
+	Logical Grouping -
+        Ye aapko related interfaces ko logically group karne ki suvidha dete hain, jisse code ko samajhna asan hota hai.
+	Namespace Management -
+        Ye aapko global namespace ko clean rakhne mein madad karte hain, kyunki ye outer class ya interface ke scope ke andar hi hote hain.
+* Conclusion -
+    Nested interfaces Java mein code organization aur encapsulation ko enhance karte hain.
+    Inhe use karne se aap apne code ko modular bana sakte hain, aur reusability ko bhi improve kar sakte hain.
+    Ye Java ki ek powerful feature hai jo complex applications ko manage karne mein madadgar hoti hai.
 
 -----Data Hidding----
 
