@@ -2730,10 +2730,41 @@ Answer :
 * Abstraction ek aisi concept hai jisme hum complex details ko hide karte hain aur sirf important functionality ko highlight karte hain.
 * Iska main focus hota hai “what to do” rather than “how to do”.
 * Matlab hum user ko sirf wo features provide karte hain jo unke liye relevant hain, aur background ka complex logic unse hide kar dete hain.
+* Abstract Methods -
+    An abstract method is a method that is declared without any implementation.
+    It only provides the method signature (name, return type, and parameters) but no body (no code inside it).
+    Purpose -
+        Abstract methods are used when you want to enforce that the child class must provide an implementation for the method.
+    They must be defined inside an abstract class or an interface.
+	Abstract methods don’t have a method body (i.e., they end with a semicolon ;).
+	When a class inherits an abstract class, it must implement all the abstract methods or declare itself abstract.
+    Ex -
+        abstract class Animal {
+            abstract void makeSound(); -----> Abstract Method (No Body)
+        }
+* Concrete Methods -
+    A concrete method is a regular method that has an implementation.
+    It contains the method signature and a body that defines the actual behavior.
+    Purpose -
+        Concrete methods provide a working implementation that can be directly used by objects or inherited by child classes.
+    They can be defined in any class, including abstract classes.
+    Concrete methods have a method body that provides the functionality.
+	Child classes can either use the inherited concrete method as-is or override it to provide a new behavior.
+    Ex -
+        class Animal {
+            void sleep() {
+                System.out.println("Animal is sleeping"); ----> Concrete Method
+            }
+        }
+* Key Difference between Abstract Method and Concrete Method -
+    Abstract Method -
+        No implementation, forces child classes to implement it.
+    Concrete Method -
+        Has an implementation, can be used directly or overridden by child classes.
 * Key Points -
 	Abstraction ka main goal hota hai complexity ko kam karna aur user ko simple interface provide karna.
 	Ye help karta hai unnecessary details ko hide karne me, jisse code maintainable aur easy to use ban jata hai.
-	Abstraction ko achieve karne ke liye abstract classes aur interfaces ka use hota hai in OOP.
+	Abstraction ko achieve karne ke liye "abstract classes" aur "interfaces" ka use hota hai in OOP.
 
 2. What is the need of Abstraction ?
 Answer :
@@ -2749,23 +2780,16 @@ Answer :
 	Jab multiple classes similar functionality implement kar rahe ho, abstraction unko simplify karta hai.
 
 4. How to achieve Abstraction in JAVA :
-    Interfaces
     Abstract Class
+    Interfaces
 Answer :
-* Interfaces -
-    Interface ek abstract type hota hai jo sirf methods ke signature define karta hai, implementation nahi.
-    Ex -
-        interface Animal {
-            void sound();
-        }
-        class Dog implements Animal {
-            @Override
-            public void sound() {
-                System.out.println("Dog barks");
-            }
-        }
 * Abstract Class -
+    Abstract Class ek aisi class hoti hai jo abstract methods ko define kar sakti hai.
+    Ye class incomplete hoti hai, isliye aap isse directly instantiate nahi kar sakte.
+    Lekin iske through hum common behavior define kar sakte hain jo derived classes mein implement hota hai.
     Abstract class me kuch methods abstract ho sakte hain (sirf signature) aur kuch methods concrete (with body) bhi ho sakte hain.
+    Abstract class mein aap abstract methods (methods without body) aur concrete methods (methods with body) dono rakh sakte hain.
+    Abstract class ko extend karke derived classes ko abstract methods ka implementation dena padta hai.
     Ex -
         abstract class Animal {
             abstract void sound(); -----> Abstract method
@@ -2779,6 +2803,26 @@ Answer :
                 System.out.println("Dog barks");
             }
         }
+* Interfaces -
+    Interface ek aisi blueprint hoti hai jisme sirf method signatures (without body) hote hain.
+    Ye classes ko define karne ka ek tarika hai jisse multiple inheritance achieve kiya ja sakta hai.
+    Interface ek abstract type hota hai jo sirf methods ke signature define karta hai, implementation nahi.
+    Interface mein sirf method declarations hote hain, unka implementation nahi hota.
+    Ek class ek se zyada interfaces ko implement kar sakti hai.
+    Java 8 se, interfaces mein default aur static methods bhi ho sakte hain.
+    Ex -
+        interface Animal {
+            void sound();
+        }
+        class Dog implements Animal {
+            @Override
+            public void sound() {
+                System.out.println("Dog barks");
+            }
+        }
+* Conclusion -
+	Abstract classes aapko partial implementation dene ka option deti hain, jabki interfaces pure abstraction provide karte hain.
+	Aap dono ka use karke Java mein effective abstraction achieve kar sakte hain, jo system ki complexity ko reduce karta hai aur code reusability ko badhata hai.
 
 5. What is the difference between Encapsulation and Abstraction ?
 Answer :
