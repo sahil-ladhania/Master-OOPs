@@ -515,8 +515,8 @@ Answer :
 	Protected
 	Default (no modifier)
 * Public :
-    Access - Sabse jyada accessible modifier hai.
-    Jahan se access ho sakta hai - Agar koi class, method ya variable public hai, toh wo kisi bhi class se accessible hoga, chahe wo same package me ho ya different package me.
+    How much is accessed - Sabse jyada accessible modifier hai.
+    Where can be accessed - Agar koi class, method ya variable public hai, toh wo kisi bhi class se accessible hoga, chahe wo same package me ho ya different package me.
     Real-World Example - Imagine a public park, anyone can enter and use it.
     Syntax -
         public class MyClass {
@@ -541,8 +541,8 @@ Answer :
         }
         Yaha name aur display() method public hain, isliye Main class se directly access kiya ja sakta hai.
 Private :
-    Access - Sabse restricted modifier.
-    Jahan se access ho sakta hai - Agar koi cheez private hai, toh sirf usi class ke andar access ho sakti hai jahan wo declare ki gayi hai. Private cheezein kisi doosri class ya package se directly access nahi ho sakti.
+    How much is accessed - Sabse restricted modifier.
+    Where can be accessed - Agar koi cheez private hai, toh sirf usi class ke andar access ho sakti hai jahan wo declare ki gayi hai. Private cheezein kisi doosri class ya package se directly access nahi ho sakti.
     Real-World Example - Think of a private diary, only the owner can read it.
     Syntax -
         private class MyClass {
@@ -570,8 +570,8 @@ Private :
         }
         Yaha secret aur showSecret() private hain, isliye class ke bahar access nahi kiya ja sakta. Lekin publicMethod() ek public method hai jo indirectly private method ko call karta hai.
 Protected :
-    Access - Thoda specific hai, private se kam restrictive aur public se zyada.
-    Jahan se access ho sakta hai -
+    How much is accessed - Thoda specific hai, private se kam restrictive aur public se zyada.
+    Where can be accessed -
                                     •	Same package ke andar access ho sakta hai, jaise default modifier.
                                     •	Different package me access tabhi hoga jab inheritance (subclass) ho. Matlab agar koi class doosre package me ho lekin wo us class ko inherit kar rahi hai, tab access allowed hoga.
     Real-World Example - Imagine a family heirloom, only family members can access it, but it is not public.
@@ -608,10 +608,6 @@ Friend (C++ only) :
         friend class FriendClass;
 Protected Friend (C++ only) :
     Accessible by derived classes and classes in the same assembly.
-
-4. What are some important points for Protected Modifier ?
-Answer :
-
 
 -----Constructors-----
 
